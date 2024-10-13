@@ -3,14 +3,23 @@ const router = express.Router();
 const Note = require('../models/Note');
 
 // Create a new note
-router.post('/', async (req, res) => {
-  const { question, answer, code } = req.body;
+router.post('/notes', async (req, res) => {
+  const { question, content } = req.body;
+console.log()
+  if (!question || !Array.isArray(content)) {
+    return res.status(400).json({ message: 'Invalid data' });
+  }
+
   try {
-    const newNote = new Note({ question, answer, code });
-    await newNote.save();
-    res.json(newNote);
-  } catch (err) {
-    res.status(500).send('Server error');
+    const newNote = new Note({
+      question,
+      content // Set content directly
+    });
+
+    const savedNote = await newNote.save();
+    res.status(201).json(savedNote);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 

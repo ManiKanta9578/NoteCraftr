@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchNotes } from '../services/api';
 import NoteCard from '../components/NoteCard';
+import styles from '../styles/Home.module.css'
 
 const Home = () => {
   const [notes, setNotes] = useState([]);
@@ -10,18 +11,20 @@ const Home = () => {
     setNotes(data);
   };
 
-  useEffect(() => {   
+  useEffect(() => {
     getNotes();
   }, []);
 
   return (
-    <div>
+    <div className={styles.container}>
       <h1>Revision Notes</h1>
-      {notes.length > 0 ? (
-        notes.map(note => <NoteCard key={note._id} note={note} />)
-      ) : (
-        <p>No notes found</p>
-      )}
+      <div className={styles.card}>
+        {notes.length > 0 ? (
+          notes.map(note => <NoteCard key={note._id} note={note} className={styles.noteCard} />)
+        ) : (
+          <p className={styles.noNotes}>No notes found</p>
+        )}
+      </div>
     </div>
   );
 };

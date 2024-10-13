@@ -5,4 +5,4 @@ const API = axios.create({
 });
 
 export const fetchNotes = () => API.get('/');
-export const createNote = (noteData) => API.post('/', noteData);
+export const createNote = (noteData) => API.post('/notes', noteData);
