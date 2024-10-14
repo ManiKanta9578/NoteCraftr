@@ -1,0 +1,90 @@
+/* Navbar.module.css */
+.navbar {
+    background-color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;          
+    z-index: 10;      
+    width: 100%;
+}
+
+.navLinks {
+    list-style-type: none;
+    display: flex;
+    gap: 1rem;
+    transition: all 0.3s ease;
+}
+
+.navLink {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.navLink:hover {
+    text-decoration: underline;
+}
+
+/* Hide the navLinks on small screens */
+@media (max-width: 768px) {
+    .navLinks {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+        opacity: 0;
+        transform: translateY(-100%);
+        transition: all 0.5s ease;
+    }
+
+    /* When the menu is active, slide down and become visible */
+    .navLinks.active {
+        opacity: 1;
+        transform: translateY(0);
+        display: flex;
+    }
+}
+
+/* Hamburger icon styles */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 0.2rem;
+    cursor: pointer;
+}
+
+.hamburger div {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+/* Show the hamburger icon on small screens */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+}
+
+/* Hamburger icon animation when active */
+.hamburger.active div:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active div:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active div:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
