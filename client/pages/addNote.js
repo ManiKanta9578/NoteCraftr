@@ -4,7 +4,7 @@ import { createNote } from '../services/api';
 const AddNote = () => {
   const [formData, setFormData] = useState({
     question: '',
-    fields: [{ type: 'answer', value: '' }] // Start with one answer field
+    fields: [{ type: 'answer', value: '' }]
   });
 
   const handleChange = (e, index) => {
@@ -16,7 +16,7 @@ const AddNote = () => {
   const handleAddField = (type) => {
     setFormData((prevData) => ({
       ...prevData,
-      fields: [...prevData.fields, { type, value: '' }] // Add a new field object
+      fields: [...prevData.fields, { type, value: '' }] 
     }));
   };
 
@@ -44,7 +44,7 @@ const AddNote = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <div className=" mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
       <h1 className="text-2xl font-semibold mb-4">Add New Note</h1>
       <form onSubmit={handleSubmit}>
         <input
