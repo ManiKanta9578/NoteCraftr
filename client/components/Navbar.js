@@ -1,69 +1,98 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 
 const NavLinks = [
-    { href: '#', name: 'Javascript' },
-    { href: '/reactjs', name: 'ReactJs' },
-    { href: '#', name: 'Javascript coding questions' },
-    { href: '#', name: 'Javascript output questions' },
-    { href: '#', name: 'React Scenarios' },
-    { href: '#', name: 'HTML' },
-    { href: '#', name: 'CSS' },
+  { href: '/javascript', name: 'Javascript' },
+  { href: '/reactjs', name: 'ReactJs' },
+  { href: '/javascript-coding-questions', name: 'Javascript coding questions' },
+  { href: '/javascript-output-questions', name: 'Javascript output questions' },
+  { href: '/react-scenarios', name: 'React Scenarios' },
+  { href: '/html', name: 'HTML' },
+  { href: '/css', name: 'CSS' },
 ];
 
 const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [activeLink, setActiveLink] = useState(NavLinks[0]?.name);
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState();
 
-    const toggleMenu = () => {
-        setIsOpen(!isOpen);
-    };
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
 
-    const handleLinkClick = (linkName) => {
-        setActiveLink(linkName);
-        setIsOpen(false);
-    };
+  const handleLinkClick = (linkName) => {
+    setActiveLink(linkName);
+    setIsOpen(false);
+  };
 
-    return (
-        <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
-            <div className="md:flex md:w-auto md:order-1 w-full flex justify-between">
-                <div className="flex items-end">
-                    <button onClick={toggleMenu} className="p-2 focus:outline-none">
-                        <svg
-                            className="w-6 h-6 text-gray-700 dark:text-gray-300"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            {isOpen && (
-                <div className='dark:bg-gray-800 border border-gray-100 fixed top-10 left-0 h-[100%] bg-gray-900 bg-opacity-90 transition-all duration-300 ease-in-out z-10'>
-                    <ul className="flex flex-col items-start w-full p-4 font-medium rounded-lg space-x-8 rtl:space-x-reverse mt-0 border-0">
-                        {NavLinks.map((item, i) => (
-                            <li key={i}>
-                                <div className="block py-2 px-3 w-full rounded hover:bg-blue-700 bg-transparent p-0 dark:text-blue-500">
-                                    <a
-                                        href={item.href}
-                                        className={`w-full ${
-                                            activeLink === item.name ? 'text-blue-500' : 'text-white'
-                                        }`}
-                                        aria-current={activeLink === item.name ? "page" : undefined}
-                                        onClick={() => handleLinkClick(item.name)}
-                                    >
-                                        {item.name}
-                                    </a>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
-        </nav>
-    );
+  return (
+    <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600 shadow-md">
+      <div className="max-w-screen-xl mx-auto flex justify-between items-center p-2">
+        {/* Left section with logo */}
+        <div className="flex items-center">
+          <Link href="/" className="text-xl font-bold text-gray-700 dark:text-gray-300">
+            My Notes
+          </Link>
+        </div>
+
+        {/* Hamburger menu button, aligned to the right on mobile/tablet */}
+        <button onClick={toggleMenu} className="ml-auto p-2 lg:hidden focus:outline-none">
+          <svg className="w-6 h-6 text-gray-700 dark:text-gray-300"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <path d="M4 18L20 18" stroke="#000000" stroke-width="2" stroke-linecap="round"></path>
+              <path d="M4 12L20 12" stroke="#000000" stroke-width="2" stroke-linecap="round"></path>
+              <path d="M4 6L20 6" stroke="#000000" stroke-width="2" stroke-linecap="round"></path>
+            </g>
+          </svg>
+        </button>
+
+        {/* Nav Links for larger screens */}
+        <div className="hidden lg:flex md:hidden space-x-1 lg:space-x-1">
+          {NavLinks.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={`py-1 px-3 rounded-lg transition duration-300 ${activeLink === item.name
+                ? 'text-blue-500 bg-blue-100'
+                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+              }`}
+              onClick={() => handleLinkClick(item.name)}
+            >
+              {item.name}
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* Mobile menu - slide-in effect */}
+      {isOpen && (
+        <div className="md:hidden fixed inset-x-0 top-14 bg-gray-100 dark:bg-gray-800 transition-all duration-300 z-10 shadow-lg">
+          <ul className="flex flex-col items-start w-full p-4 font-medium space-y-2">
+            {NavLinks.map((item, i) => (
+              <li key={i}>
+                <Link
+                  href={item.href}
+                  className={`block py-2 px-3 w-full rounded transition duration-300 ${activeLink === item.name
+                    ? 'text-blue-500 bg-blue-100'
+                    : 'text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-blue-700'
+                  }`}
+                  aria-current={activeLink === item.name ? 'page' : undefined}
+                  onClick={() => handleLinkClick(item.name)}
+                >
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </nav>
+  );
 };
 
 export default Navbar;
