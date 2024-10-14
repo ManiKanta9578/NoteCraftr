@@ -36,19 +36,9 @@ const Navbar = () => {
 
         {/* Hamburger menu button, aligned to the right on mobile/tablet */}
         <button onClick={toggleMenu} className="ml-auto p-2 lg:hidden focus:outline-none">
-          <svg className="w-6 h-6 text-gray-700 dark:text-gray-300"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg">
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-            <g id="SVGRepo_iconCarrier">
-              <path d="M4 18L20 18" stroke="#000000" stroke-width="2" stroke-linecap="round"></path>
-              <path d="M4 12L20 12" stroke="#000000" stroke-width="2" stroke-linecap="round"></path>
-              <path d="M4 6L20 6" stroke="#000000" stroke-width="2" stroke-linecap="round"></path>
-            </g>
-          </svg>
+          {!isOpen
+            ? (<svg className="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <g id="SVGRepo_bgCarrier" stroke-width="0"></g> <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g> <g id="SVGRepo_iconCarrier"> <path d="M4 18L20 18" stroke="#000000" stroke-width="2" stroke-linecap="round"></path> <path d="M4 12L20 12" stroke="#000000" stroke-width="2" stroke-linecap="round"></path> <path d="M4 6L20 6" stroke="#000000" stroke-width="2" stroke-linecap="round"></path> </g> </svg>)
+            : (<svg className="w-6 h-6 text-gray-700 dark:text-gray-300" width="256px" height="256px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect width="24" height="24" fill="white"></rect> <path d="M7 17L16.8995 7.10051" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M7 7.00001L16.8995 16.8995" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>)}
         </button>
 
         {/* Nav Links for larger screens */}
@@ -60,7 +50,7 @@ const Navbar = () => {
               className={`py-1 px-3 rounded-lg transition duration-300 ${activeLink === item.name
                 ? 'text-blue-500 bg-blue-100'
                 : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
-              }`}
+                }`}
               onClick={() => handleLinkClick(item.name)}
             >
               {item.name}
@@ -80,7 +70,7 @@ const Navbar = () => {
                   className={`block py-2 px-3 w-full rounded transition duration-300 ${activeLink === item.name
                     ? 'text-blue-500 bg-blue-100'
                     : 'text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-blue-700'
-                  }`}
+                    }`}
                   aria-current={activeLink === item.name ? 'page' : undefined}
                   onClick={() => handleLinkClick(item.name)}
                 >

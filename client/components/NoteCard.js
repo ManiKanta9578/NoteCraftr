@@ -1,15 +1,6 @@
 import React from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { nightOwl } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-const customStyle = {
-  ...nightOwl, 
-  'code[class*="language-"]': {
-    ...nightOwl['code[class*="language-"]'],
-    fontSize: '1.4em',
-    lineHeight: '1.5',
-  },
-};
 
 const NoteCard = ({ note }) => {
 
@@ -22,7 +13,7 @@ const NoteCard = ({ note }) => {
             return <p key={index} className="mb-2 text-3xl md:text-lg">{item.value}</p>;
           } else if (item.type === "code") {
             return (
-              <SyntaxHighlighter key={index} language="javascript" style={customStyle}>
+              <SyntaxHighlighter key={index} language="javascript">
                 {item.value}
               </SyntaxHighlighter>
             );
