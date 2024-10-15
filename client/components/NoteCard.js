@@ -2,8 +2,8 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 
 const NoteCard = ({ note }) => {
   return (
-    <div className="bg-white border border-gray-200 shadow-lg p-6 rounded-lg">
-      <h3 className="text-3xl md:text-lg font-bold mb-4 text-gray-800">{note.question}</h3>
+    <div className="border border-gray-200 shadow-lg p-6 rounded-lg">
+      <h3 className="text-3xl md:text-lg font-bold mb-4 ">{note.question}</h3>
 
       {/* Loop through note content and render based on type */}
       {note.content.length > 0 ? (
@@ -12,7 +12,7 @@ const NoteCard = ({ note }) => {
             return (
               <div
                 key={index}
-                className="mb-4 text-3xl md:text-lg text-gray-700"
+                className="mb-4 text-3xl md:text-lg "
                 dangerouslySetInnerHTML={{ __html: item.value }} // Render HTML content
               />
             );

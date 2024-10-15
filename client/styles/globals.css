@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --bg-color: rgb(255, 255, 255); /* Light background */
+    --text-color: rgb(17, 24, 28); /* Light text color */
+}
+
+[data-theme='dark'] {
+    --bg-color: rgb(0, 0, 0); /* Dark background */
+    --text-color: rgb(236, 237, 238); /* Dark text color */
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
