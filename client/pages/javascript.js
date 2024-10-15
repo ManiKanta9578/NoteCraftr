@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchNotes } from '../services/api';
+import { fetchNotesByTechnology } from '../services/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import NoteCard from '@/components/NoteCard';
 
@@ -10,7 +10,7 @@ const JavaScript = () => {
     const getNotes = async () => {
         setLoading(true);
         try {
-            const { data } = await fetchNotes();
+            const { data } = await fetchNotesByTechnology('Javascript');
             setNotes(data);
         } catch (error) {
             console.error("Error fetching notes:", error);

@@ -20,15 +20,24 @@ router.post('/notes', async (req, res) => {
   }
 });
 
-// Get all notes
-router.get('/', async (req, res) => {
+// Get notes based on technology
+router.get('/notes', async (req, res) => {
+  const { technology } = req.query; // Get technology from query parameters
+
   try {
-    const notes = await Note.find();
+    let notes;
+    if (technology) {
+      notes = await Note.find({ technology }); // Filter notes by technology
+    } else {
+      notes = await Note.find(); // Fetch all notes if no technology is specified
+    }
+
     res.json(notes);
   } catch (err) {
     res.status(500).send('Server error');
   }
 });
+
 
 // Get a specific note
 router.get('/:id', async (req, res) => {
