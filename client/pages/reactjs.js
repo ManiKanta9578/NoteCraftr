@@ -12,6 +12,7 @@ const ReactJs = () => {
         try {
             const { data } = await fetchNotesByTechnology('React');
             setNotes(data);
+            console.log("data",data);
         } catch (error) {
             console.error("Error fetching notes:", error);
         } finally {

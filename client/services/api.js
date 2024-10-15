@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let baseURL = 'https://congenial-memory-x7qw4j4jpr9cpxp9-5000.app.github.dev/api';
+let baseURL = "https://my-notes-0b4d.onrender.com/api" || "https://congenial-memory-x7qw4j4jpr9cpxp9-5000.app.github.dev/api";
 
 const API = axios.create({ baseURL });
 
