@@ -4,7 +4,8 @@ import { createNote } from '../services/api';
 const AddNote = () => {
   const [formData, setFormData] = useState({
     question: '',
-    fields: [{ type: 'answer', value: '' }]
+    fields: [{ type: 'answer', value: '' }],
+    technology: ''
   });
 
   const handleChange = (e, index) => {
@@ -16,7 +17,7 @@ const AddNote = () => {
   const handleAddField = (type) => {
     setFormData((prevData) => ({
       ...prevData,
-      fields: [...prevData.fields, { type, value: '' }] 
+      fields: [...prevData.fields, { type, value: '' }]
     }));
   };
 
@@ -36,17 +37,32 @@ const AddNote = () => {
 
     await createNote({
       question: formData.question,
-      content
+      content,
+      technology: formData.technology // Include technology in the payload
     });
 
     // Reset form to initial state
-    setFormData({ question: '', fields: [{ type: 'answer', value: '' }] });
+    setFormData({ question: '', fields: [{ type: 'answer', value: '' }], technology: '' });
   };
 
   return (
-    <div className=" mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+    <div className="mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
       <h1 className="text-2xl font-semibold mb-4">Add New Note</h1>
       <form onSubmit={handleSubmit}>
+        <select
+          name="technology"
+          value={formData.technology}
+          onChange={(e) => setFormData({ ...formData, technology: e.target.value })}
+          className="w-full border border-gray-300 p-2 mb-4 rounded-lg"
+        >
+          <option value="">Select Technology</option>
+          <option value="React">React</option>
+          <option value="Node.js">Node.js</option>
+          <option value="JavaScript">JavaScript</option>
+          <option value="CSS">CSS</option>
+          <option value="HTML">HTML</option>
+        </select>
+
         <input
           type="text"
           name="question"

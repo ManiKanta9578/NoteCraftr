@@ -4,17 +4,14 @@ const Note = require('../models/Note');
 
 // Create a new note
 router.post('/notes', async (req, res) => {
-  const { question, content } = req.body;
-console.log()
-  if (!question || !Array.isArray(content)) {
+  const { question, content, technology } = req.body;
+
+  if (!question || !Array.isArray(content) || !technology) {
     return res.status(400).json({ message: 'Invalid data' });
   }
 
   try {
-    const newNote = new Note({
-      question,
-      content // Set content directly
-    });
+    const newNote = new Note({ question, content, technology });
 
     const savedNote = await newNote.save();
     res.status(201).json(savedNote);
@@ -28,7 +25,6 @@ router.get('/', async (req, res) => {
   try {
     const notes = await Note.find();
     res.json(notes);
-    // res.send("Welcome");
   } catch (err) {
     res.status(500).send('Server error');
   }
@@ -46,9 +42,24 @@ router.get('/:id', async (req, res) => {
 
 // Update a note
 router.put('/:id', async (req, res) => {
-  const { question, answer, code } = req.body;
+  const { question, content, technology } = req.body;
+
+  // Ensure question, content, and technology are valid
+  if (!question || !Array.isArray(content) || !technology) {
+    return res.status(400).json({ message: 'Invalid data' });
+  }
+
   try {
-    const updatedNote = await Note.findByIdAndUpdate(req.params.id, { question, answer, code }, { new: true });
+    const updatedNote = await Note.findByIdAndUpdate(
+      req.params.id,
+      { question, content, technology }, // Update question, content, and technology
+      { new: true } // Return the updated note
+    );
+
+    if (!updatedNote) {
+      return res.status(404).json({ message: 'Note not found' });
+    }
+
     res.json(updatedNote);
   } catch (err) {
     res.status(500).send('Server error');

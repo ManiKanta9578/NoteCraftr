@@ -17,7 +17,11 @@ const noteSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  content: [contentSchema] // Use the content schema for an array
+  content: [contentSchema], // Use the content schema for an array
+  technology: {
+    type: String, // Adding technology field
+    required: true // Make it required or optional depending on your use case
+  }
 });
 
 const Note = mongoose.model('Note', noteSchema);
