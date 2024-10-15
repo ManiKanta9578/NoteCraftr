@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Note = require('../models/Note');
+const sanitizeHtml = require('sanitize-html');
 
 // Create a new note
 router.post('/notes', async (req, res) => {
@@ -11,7 +12,13 @@ router.post('/notes', async (req, res) => {
   }
 
   try {
-    const newNote = new Note({ question, content, technology });
+    // Sanitize each content item's value
+    const sanitizedContent = content.map(item => ({
+      type: item.type,
+      value: sanitizeHtml(item.value) // Sanitize HTML content
+    }));
+
+    const newNote = new Note({ question, content: sanitizedContent, technology });
 
     const savedNote = await newNote.save();
     res.status(201).json(savedNote);
@@ -59,9 +66,15 @@ router.put('/:id', async (req, res) => {
   }
 
   try {
+    // Sanitize each content item's value
+    const sanitizedContent = content.map(item => ({
+      type: item.type,
+      value: sanitizeHtml(item.value) // Sanitize HTML content
+    }));
+
     const updatedNote = await Note.findByIdAndUpdate(
       req.params.id,
-      { question, content, technology }, // Update question, content, and technology
+      { question, content: sanitizedContent, technology },
       { new: true } // Return the updated note
     );
 

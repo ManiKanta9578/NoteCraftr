@@ -1,19 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createNote } from '../services/api';
+import dynamic from 'next/dynamic';
+import 'react-quill/dist/quill.snow.css'; // Import ReactQuill's styles
+
+// Dynamically import ReactQuill with SSR disabled
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const AddNote = () => {
+  const [mounted, setMounted] = useState(false); // Track whether the component is mounted on the client side
   const [formData, setFormData] = useState({
     question: '',
     fields: [{ type: 'answer', value: '' }],
     technology: ''
   });
 
-  const handleChange = (e, index) => {
+  console.log(formData);
+  // Ensure the component is only rendered on the client side
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // ReactQuill configuration for toolbar
+  const modules = {
+    toolbar: [
+      [{ header: '1' }, { header: '2' }, { font: [] }],
+      [{ size: [] }],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
+      ['link', 'image', 'code-block'],
+      ['clean']
+    ]
+  };
+
+  const formats = [
+    'header', 'font', 'size',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image', 'code-block'
+  ];
+
+  // Handle input changes
+  const handleChange = (value, index) => {
     const updatedFields = [...formData.fields];
-    updatedFields[index].value = e.target.value;
+    updatedFields[index].value = value;
     setFormData({ ...formData, fields: updatedFields });
   };
 
+  // Add a new field (answer or code)
   const handleAddField = (type) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -21,6 +54,7 @@ const AddNote = () => {
     }));
   };
 
+  // Remove a field
   const handleRemoveField = (index) => {
     const updatedFields = formData.fields.filter((_, i) => i !== index);
     setFormData({ ...formData, fields: updatedFields });
@@ -28,27 +62,41 @@ const AddNote = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Send the entire content array with type and value
-    const content = formData.fields.map(field => ({
+  
+    // Filter out empty "answer" fields that have only <p><br></p>
+    const cleanedFields = formData.fields.filter((field) => {
+      // Check if it's a code field or a non-empty answer field
+      if (field.type === 'answer') {
+        return field.value !== '<p><br></p>' && field.value.trim() !== '';
+      }
+      return field.value.trim() !== ''; // For code fields
+    });
+  
+    const content = cleanedFields.map((field) => ({
       type: field.type,
       value: field.value
     }));
-
+  
+    // Submit cleaned form data
     await createNote({
       question: formData.question,
       content,
-      technology: formData.technology // Include technology in the payload
+      technology: formData.technology
     });
-
-    // Reset form to initial state
-    setFormData({ question: '', fields: [{ type: 'answer', value: '' }], technology: '' });
+  
+    // Reset form to initial state after submission
+    setFormData({
+      question: '',
+      fields: [{ type: 'answer', value: '' }],
+      technology: ''
+    });
   };
-
+  
   return (
     <div className="mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
       <h1 className="text-2xl font-semibold mb-4">Add New Note</h1>
       <form onSubmit={handleSubmit}>
+        {/* Technology Dropdown */}
         <select
           name="technology"
           value={formData.technology}
@@ -63,6 +111,7 @@ const AddNote = () => {
           <option value="HTML">HTML</option>
         </select>
 
+        {/* Question Input */}
         <input
           type="text"
           name="question"
@@ -72,17 +121,21 @@ const AddNote = () => {
           className="w-full border border-gray-300 p-2 mb-4 rounded-lg"
         />
 
+        {/* Fields for Answer/Code */}
         {formData.fields.map((field, index) => (
           <div key={index} className="mb-4">
             {field.type === 'answer' ? (
               <>
-                <textarea
-                  name={`answer-${index}`}
-                  placeholder="Answer"
-                  value={field.value}
-                  onChange={(e) => handleChange(e, index)}
-                  className="w-full border border-gray-300 p-2 rounded-lg mb-2"
-                />
+                {mounted && (
+                  <ReactQuill
+                    value={field.value}
+                    onChange={(value) => handleChange(value, index)}
+                    placeholder="Answer"
+                    modules={modules}
+                    formats={formats}
+                    className="border border-gray-300 rounded-lg mb-2"
+                  />
+                )}
                 <button
                   type="button"
                   onClick={() => handleRemoveField(index)}
@@ -97,7 +150,7 @@ const AddNote = () => {
                   name={`code-${index}`}
                   placeholder="Code"
                   value={field.value}
-                  onChange={(e) => handleChange(e, index)}
+                  onChange={(e) => handleChange(e.target.value, index)}
                   className="w-full border border-gray-300 p-2 rounded-lg mb-2"
                 />
                 <button
@@ -112,6 +165,7 @@ const AddNote = () => {
           </div>
         ))}
 
+        {/* Buttons to Add Fields */}
         <div className="flex space-x-4 mb-4">
           <button
             type="button"
@@ -129,6 +183,7 @@ const AddNote = () => {
           </button>
         </div>
 
+        {/* Submit Button */}
         <button type="submit" className="bg-purple-500 text-white w-full py-2 rounded-lg">
           Add Note
         </button>

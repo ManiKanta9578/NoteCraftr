@@ -9,6 +9,7 @@ const NavLinks = [
   { href: '/react-scenarios', name: 'React Scenarios' },
   { href: '/html', name: 'HTML' },
   { href: '/css', name: 'CSS' },
+  { href: '/addNote', name: 'Create' },
 ];
 
 const Navbar = () => {
