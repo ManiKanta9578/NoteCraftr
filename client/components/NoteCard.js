@@ -1,37 +1,26 @@
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import React from 'react';
+import Highlight from 'react-highlight';
+import 'highlight.js/styles/atom-one-dark.css'; // Choose a theme
 
 const NoteCard = ({ note }) => {
   return (
-    <div className="border border-gray-200 shadow-lg p-6 rounded-lg">
-      <h3 className="text-3xl md:text-lg font-bold mb-4 ">{note.question}</h3>
-
-      {/* Loop through note content and render based on type */}
+    <div className="border border-gray-300 shadow-lg p-4 rounded-lg mx-auto">
+      <h3 className="text-3xl md:text-xl font-semibold mb-3 text-left">{note.question}</h3>
       {note.content.length > 0 ? (
         note.content.map((item, index) => {
-          if (item.type === 'answer') {
+          if (item.type === "answer") {
             return (
               <div
                 key={index}
-                className="mb-4 text-3xl md:text-lg "
-                dangerouslySetInnerHTML={{ __html: item.value }} // Render HTML content
+                className="mb-2 text-3xl md:text-lg"
+                dangerouslySetInnerHTML={{ __html: item.value }}
               />
             );
-          } else if (item.type === 'code') {
+          } else if (item.type === "code") {
             return (
-              <div key={index} className="mb-4">
-                <SyntaxHighlighter
-                  language="javascript"
-                  customStyle={{
-                    padding: "16px",
-                    borderRadius: "8px",
-                    backgroundColor: "#f5f5f5",
-                    fontSize: "14px",
-                    overflowX: "auto",
-                  }}
-                >
-                  {item.value}
-                </SyntaxHighlighter>
-              </div>
+              <Highlight key={index} className="javascript">
+                {item.value}
+              </Highlight>
             );
           }
           return null;
