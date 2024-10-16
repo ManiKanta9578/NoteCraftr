@@ -6,7 +6,7 @@ import 'react-quill/dist/quill.snow.css'; // Import ReactQuill's styles
 // Dynamically import ReactQuill with SSR disabled
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-const AddNote = ({ theme }) => {  // Assuming `theme` prop is passed for dark/light mode
+const AddNote = () => {
   const [mounted, setMounted] = useState(false); // Track whether the component is mounted on the client side
   const [formData, setFormData] = useState({
     question: '',
@@ -14,6 +14,7 @@ const AddNote = ({ theme }) => {  // Assuming `theme` prop is passed for dark/li
     technology: ''
   });
 
+  console.log(formData);
   // Ensure the component is only rendered on the client side
   useEffect(() => {
     setMounted(true);
@@ -61,7 +62,7 @@ const AddNote = ({ theme }) => {  // Assuming `theme` prop is passed for dark/li
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Filter out empty "answer" fields that have only <p><br></p>
     const cleanedFields = formData.fields.filter((field) => {
       // Check if it's a code field or a non-empty answer field
@@ -70,19 +71,19 @@ const AddNote = ({ theme }) => {  // Assuming `theme` prop is passed for dark/li
       }
       return field.value.trim() !== ''; // For code fields
     });
-
+  
     const content = cleanedFields.map((field) => ({
       type: field.type,
       value: field.value
     }));
-
+  
     // Submit cleaned form data
     await createNote({
       question: formData.question,
       content,
       technology: formData.technology
     });
-
+  
     // Reset form to initial state after submission
     setFormData({
       question: '',
@@ -90,52 +91,46 @@ const AddNote = ({ theme }) => {  // Assuming `theme` prop is passed for dark/li
       technology: ''
     });
   };
-
+  
   return (
-    <div className={`mx-auto p-6 rounded-lg mt-12`}>
-      <h1 className="text-2xl lg:text-2xl font-bold mb-6 text-center">Add a New Note</h1>
+    <div className="mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+      <h1 className="text-2xl font-semibold mb-4">Add New Note</h1>
       <form onSubmit={handleSubmit}>
         {/* Technology Dropdown */}
-        <div className="mb-4">
-          <label className="block text-lg font-medium mb-2">Select Technology</label>
-          <select
-            name="technology"
-            value={formData.technology}
-            onChange={(e) => setFormData({ ...formData, technology: e.target.value })}
-            className={`w-full p-3 rounded-lg border focus:ring-2 focus:outline-none bg-transparent`}
-          >
-            <option value="">Select Technology</option>
-            <option value="React">React</option>
-            <option value="Node.js">Node.js</option>
-            <option value="JavaScript">JavaScript</option>
-            <option value="CSS">CSS</option>
-            <option value="HTML">HTML</option>
-          </select>
-        </div>
+        <select
+          name="technology"
+          value={formData.technology}
+          onChange={(e) => setFormData({ ...formData, technology: e.target.value })}
+          className="w-full border border-gray-300 p-2 mb-4 rounded-lg"
+        >
+          <option value="">Select Technology</option>
+          <option value="React">React</option>
+          <option value="Node.js">Node.js</option>
+          <option value="JavaScript">JavaScript</option>
+          <option value="CSS">CSS</option>
+          <option value="HTML">HTML</option>
+        </select>
 
         {/* Question Input */}
-        <div className="mb-4">
-          <label className="block text-lg font-medium mb-2">Question</label>
-          <input
-            type="text"
-            name="question"
-            placeholder="Enter your question"
-            value={formData.question}
-            onChange={(e) => setFormData({ ...formData, question: e.target.value })}
-            className={`w-full border p-3 rounded-lg focus:ring-2 focus:outline-none bg-transparent`}
-          />
-        </div>
+        <input
+          type="text"
+          name="question"
+          placeholder="Question"
+          value={formData.question}
+          onChange={(e) => setFormData({ ...formData, question: e.target.value })}
+          className="w-full border border-gray-300 p-2 mb-4 rounded-lg"
+        />
 
         {/* Fields for Answer/Code */}
         {formData.fields.map((field, index) => (
           <div key={index} className="mb-4">
             {field.type === 'answer' ? (
-              <div>
+              <>
                 {mounted && (
                   <ReactQuill
                     value={field.value}
                     onChange={(value) => handleChange(value, index)}
-                    placeholder="Write your answer"
+                    placeholder="Answer"
                     modules={modules}
                     formats={formats}
                     className="border border-gray-300 rounded-lg mb-2"
@@ -144,54 +139,53 @@ const AddNote = ({ theme }) => {  // Assuming `theme` prop is passed for dark/li
                 <button
                   type="button"
                   onClick={() => handleRemoveField(index)}
-                  className="text-red-600 hover:text-red-800 transition"
+                  className="text-red-500"
                 >
-                  Remove Answer
+                  Remove
                 </button>
-              </div>
+              </>
             ) : (
-              <div>
+              <>
                 <textarea
                   name={`code-${index}`}
-                  placeholder="Enter your code"
+                  placeholder="Code"
                   value={field.value}
                   onChange={(e) => handleChange(e.target.value, index)}
-                  className={`w-full border p-3 rounded-lg mb-2 focus:ring-2 focus:outline-none
-                    ${theme === 'dark' ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300 text-black'}`}
+                  className="w-full border border-gray-300 p-2 rounded-lg mb-2"
                 />
                 <button
                   type="button"
                   onClick={() => handleRemoveField(index)}
-                  className="text-red-600 hover:text-red-800 transition"
+                  className="text-red-500"
                 >
-                  Remove Code
+                  Remove
                 </button>
-              </div>
+              </>
             )}
           </div>
         ))}
 
         {/* Buttons to Add Fields */}
-        <div className="flex space-x-4 mb-6">
+        <div className="flex space-x-4 mb-4">
           <button
             type="button"
             onClick={() => handleAddField('answer')}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition"
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg"
           >
             Add Answer
           </button>
           <button
             type="button"
             onClick={() => handleAddField('code')}
-            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition"
+            className="bg-green-500 text-white px-4 py-2 rounded-lg"
           >
             Add Code
           </button>
         </div>
 
         {/* Submit Button */}
-        <button type="submit" className="bg-purple-600 hover:bg-purple-700 text-white w-full py-3 rounded-lg transition">
-          Submit Note
+        <button type="submit" className="bg-purple-500 text-white w-full py-2 rounded-lg">
+          Add Note
         </button>
       </form>
     </div>
