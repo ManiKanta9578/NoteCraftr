@@ -25,7 +25,7 @@ const ReactJs = () => {
     }, []);
 
     return (
-        <div className="container mx-auto px-4 mt-14">
+        <div className="container mx-auto px-4 mt-16">
             {loading
                 ? (<LoadingSpinner />)
                 : (

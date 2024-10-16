@@ -93,7 +93,7 @@ const AddNote = () => {
   };
   
   return (
-    <div className="mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+    <div className="mx-auto h-screen p-6 shadow-lg rounded-lg mt-16">
       <h1 className="text-2xl font-semibold mb-4">Add New Note</h1>
       <form onSubmit={handleSubmit}>
         {/* Technology Dropdown */}
@@ -101,7 +101,7 @@ const AddNote = () => {
           name="technology"
           value={formData.technology}
           onChange={(e) => setFormData({ ...formData, technology: e.target.value })}
-          className="w-full border border-gray-300 p-2 mb-4 rounded-lg"
+          className="w-full border border-gray-300 bg-inherit p-2 mb-4 rounded-lg"
         >
           <option value="">Select Technology</option>
           <option value="React">React</option>
@@ -118,7 +118,7 @@ const AddNote = () => {
           placeholder="Question"
           value={formData.question}
           onChange={(e) => setFormData({ ...formData, question: e.target.value })}
-          className="w-full border border-gray-300 p-2 mb-4 rounded-lg"
+          className="w-full border border-gray-300 bg-inherit p-2 mb-4 rounded-lg"
         />
 
         {/* Fields for Answer/Code */}
