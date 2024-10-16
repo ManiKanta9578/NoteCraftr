@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchNotesByTechnology } from '../services/api';
-import LoadingSpinner from '@/components/LoadingSpinner';
-import NoteCard from '@/components/NoteCard';
+import LoadingSpinner from '@/src/components/LoadingSpinner';
+import NoteCard from '@/src/components/NoteCard';
 
 const JavaScript = () => {
     const [notes, setNotes] = useState([]);
@@ -24,7 +24,7 @@ const JavaScript = () => {
     }, []);
 
     return (
-        <div className="container mx-auto px-4 mt-14">
+        <div className="container mx-auto px-4 mt-20">
             {loading
                 ? (<LoadingSpinner />)
                 : (

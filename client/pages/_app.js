@@ -1,6 +1,6 @@
 // pages/_app.js
 import '../styles/globals.css';
-import Layout from '@/components/Layout'; // Adjust the path as needed
+import Layout from '@/src/components/Layout'; // Adjust the path as needed
 
 export default function App({ Component, pageProps }) {
     return (

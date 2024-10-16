@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchNotesByTechnology } from '../services/api';
-import LoadingSpinner from '@/components/LoadingSpinner';
-import NoteCard from '@/components/NoteCard';
+import LoadingSpinner from '@/src/components/LoadingSpinner';
+import NoteCard from '@/src/components/NoteCard';
 
 const ReactJs = () => {
     const [notes, setNotes] = useState([]);
