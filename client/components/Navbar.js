@@ -5,9 +5,9 @@ import ThemeSwitcher from '@/components/ThemeSwitcher';
 const NavLinks = [
   { href: '/javascript', name: 'Javascript' },
   { href: '/reactjs', name: 'ReactJs' },
-  { href: '/javascript-coding-questions', name: 'Javascript coding questions' },
-  { href: '/javascript-output-questions', name: 'Javascript output questions' },
-  { href: '/react-scenarios', name: 'React Scenarios' },
+  { href: '/dsa', name: 'DSA' },
+  { href: '/jSOutput', name: 'JSOutput' },
+  { href: '/reactMR', name: 'ReactMR' },
   { href: '/html', name: 'HTML' },
   { href: '/css', name: 'CSS' },
   { href: '/addNote', name: 'Create' },
@@ -73,7 +73,7 @@ const Navbar = () => {
         </div>
 
         {/* Side Drawer (slides from the right) for small screens */}
-        <div className={`fixed inset-y-0 right-0 transform ${isDrawerOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out z-50 bg-white dark:bg-gray-900 shadow-lg md:hidden`}        >
+        <div className={`fixed w-64 inset-y-0 right-0 transform ${isDrawerOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out z-50 bg-white dark:bg-gray-900 shadow-lg md:hidden`}        >
           {/* Close button inside drawer */}
           <button
             onClick={toggleDrawer}
