@@ -4,9 +4,9 @@ import { useRouter } from "next/router";
 const topics = [
     { id: 1, href:'/javascript' ,name: 'JavaScript', description: 'Explore fundamentals, advanced concepts, and coding challenges.' },
     { id: 2, href:'/reactjs' ,name: 'React.js', description: 'Master React.js concepts and build interactive UIs.' },
-    { id: 3, href:'/javascript-coding-questions' ,name: 'JavaScript Coding Questions', description: 'Practice common coding challenges and algorithms.' },
-    { id: 4, href:'/javascript-output-questions' ,name: 'JavaScript Output Questions', description: 'Test your knowledge with output-focused questions.' },
-    { id: 5, href:'/react-scenarios' ,name: 'React Scenarios', description: 'Learn how to handle various scenarios in React development.' },
+    { id: 3, href:'/dsa' ,name: 'DSA', description: 'Practice common coding challenges and algorithms.' },
+    { id: 4, href:'/jSOutput' ,name: 'JavaScript Output Questions', description: 'Test your knowledge with output-focused questions.' },
+    { id: 5, href:'/reactMR' ,name: 'React Machine Round', description: 'Learn how to handle various scenarios in React development.' },
     { id: 6, href:'/html' ,name: 'HTML', description: 'Understand HTML basics, semantic elements, and best practices.' },
     { id: 7, href:'/css' ,name: 'CSS', description: 'Dive into CSS styling, layouts, and responsive design.' },
 ];

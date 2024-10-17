@@ -19,8 +19,8 @@ const NoteCard = ({ note }) => {
               );
             } else if (item.type === "code") {
               return (
-                <div key={index} className="mb-2">
-                  <Highlight className="javascript"> {item.value} </Highlight>
+                <div key={index} className="mb-2 text-xs">
+                  <Highlight> {item.value} </Highlight>
                 </div>
               );
             }
