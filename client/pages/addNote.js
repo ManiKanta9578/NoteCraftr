@@ -106,7 +106,7 @@ const AddNote = () => {
           <option value="">Select Technology</option>
           <option value="React">React</option>
           <option value="Node">Node</option>
-          <option value="JS">JS</option>
+          <option value="JavaScript">JavaScript</option>
           <option value="JSOutput">JS Output QAs</option>
           <option value="ReactMR">React MR QAs</option> {/* MR: Machine Round */}
           <option value="DSA">DSA</option>

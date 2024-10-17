@@ -10,7 +10,7 @@ const JavaScript = () => {
     const getNotes = async () => {
         setLoading(true);
         try {
-            const { data } = await fetchNotesByTechnology('JavaScript' || 'JS');
+            const { data } = await fetchNotesByTechnology('JavaScript');
             setNotes(data);
         } catch (error) {
             console.error("Error fetching notes:", error);
