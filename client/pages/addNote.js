@@ -136,7 +136,7 @@ const AddNote = () => {
                     placeholder="Answer"
                     modules={modules}
                     formats={formats}
-                    className="border border-gray-300 rounded-lg mb-2"
+                    className="border border-gray-300 bg-inherit rounded-lg mb-2"
                   />
                 )}
                 <button
@@ -154,7 +154,7 @@ const AddNote = () => {
                   placeholder="Code"
                   value={field.value}
                   onChange={(e) => handleChange(e.target.value, index)}
-                  className="w-full border border-gray-300 p-2 rounded-lg mb-2"
+                  className="w-full border border-gray-300 bg-inherit p-2 rounded-lg mb-2"
                 />
                 <button
                   type="button"
