@@ -3,14 +3,14 @@ import { fetchNotesByTechnology } from '../services/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import NoteCard from '@/components/NoteCard';
 
-const JavaScript = () => {
+const DSA = () => {
     const [notes, setNotes] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const getNotes = async () => {
         setLoading(true);
         try {
-            const { data } = await fetchNotesByTechnology('JavaScript' || 'JS');
+            const { data } = await fetchNotesByTechnology('DSA');
             setNotes(data);
         } catch (error) {
             console.error("Error fetching notes:", error);
@@ -40,4 +40,4 @@ const JavaScript = () => {
     );
 };
 
-export default JavaScript;
+export default DSA;

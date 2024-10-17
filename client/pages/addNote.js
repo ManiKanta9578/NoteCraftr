@@ -62,7 +62,7 @@ const AddNote = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Filter out empty "answer" fields that have only <p><br></p>
     const cleanedFields = formData.fields.filter((field) => {
       // Check if it's a code field or a non-empty answer field
@@ -71,19 +71,19 @@ const AddNote = () => {
       }
       return field.value.trim() !== ''; // For code fields
     });
-  
+
     const content = cleanedFields.map((field) => ({
       type: field.type,
       value: field.value
     }));
-  
+
     // Submit cleaned form data
     await createNote({
       question: formData.question,
       content,
       technology: formData.technology
     });
-  
+
     // Reset form to initial state after submission
     setFormData({
       question: '',
@@ -91,7 +91,7 @@ const AddNote = () => {
       technology: ''
     });
   };
-  
+
   return (
     <div className="mx-auto h-screen p-6 shadow-lg rounded-lg mt-16">
       <h1 className="text-2xl font-semibold mb-4">Add New Note</h1>
@@ -105,8 +105,11 @@ const AddNote = () => {
         >
           <option value="">Select Technology</option>
           <option value="React">React</option>
-          <option value="Node.js">Node.js</option>
-          <option value="JavaScript">JavaScript</option>
+          <option value="Node">Node</option>
+          <option value="JS">JS</option>
+          <option value="JSOutput">JS Output QAs</option>
+          <option value="ReactMR">React MR QAs</option> {/* MR: Machine Round */}
+          <option value="DSA">DSA</option>
           <option value="CSS">CSS</option>
           <option value="HTML">HTML</option>
         </select>
