@@ -1,4 +1,4 @@
-# my_notes
+# NoteCraftr
 
 https://notecraftr-omega-two.vercel.app/
 
