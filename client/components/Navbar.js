@@ -31,7 +31,7 @@ const Navbar = () => {
       <div className="max-w-screen-xl mx-auto flex justify-between items-center p-2">
         {/* Left section with logo */}
         <div className="flex items-center">
-          <Link href="/" className="text-xl md:text-2xl font-bold"> 📓MyNotes </Link>
+          <Link href="/" className="text-xl md:text-2xl font-bold"> 📓NoteCraftr </Link>
         </div>
 
         <div className="flex items-center space-x-4">
