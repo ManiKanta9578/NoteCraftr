@@ -27,7 +27,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed w-full z-10 top-0 left-0 shadow-lg">
+    <nav className="fixed w-full z-10 top-0 left-0 shadow-lg bg-white dark:bg-black">
       <div className="max-w-screen-xl mx-auto flex justify-between items-center p-2">
         {/* Left section with logo */}
         <div className="flex items-center">
