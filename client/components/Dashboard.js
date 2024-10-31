@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 const topics = [
     { id: 1, href: '/javascript', name: 'JavaScript', description: 'Explore fundamentals, advanced concepts, and coding challenges.', src: 'https://ik.imagekit.io/ably/ghost/prod/2023/12/choosing-the-best-javascript-frameworks-for-your-next-project.png?tr=w-1728,q-50', },
@@ -21,12 +22,8 @@ const Dashboard = () => {
             {/* Responsive grid layout */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {topics.map((topic) => (
-                    <div key={topic.id} className="relative h-[200px] w-full rounded-md">
-                        <img
-                            src={topic.src}
-                            alt={topic.name}
-                            className="z-0 h-full w-full rounded-md object-cover"
-                        />
+                    <div key={topic.id} className="relative h-[200px] w-full rounded-md overflow-hidden">
+                        <Image src={topic.src} alt={topic.name} layout="fill" objectFit="cover" className="z-0" />
                         <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
                         <div className="absolute bottom-4 left-4 text-left">
                             <h1 className="text-lg font-semibold text-white">{topic.name}</h1>
