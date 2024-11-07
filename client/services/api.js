@@ -4,7 +4,7 @@ let development = "http://localhost:5000/api";
 let github = "https://congenial-memory-x7qw4j4jpr9cpxp9-5000.app.github.dev/api"
 let production = "https://my-notes-0b4d.onrender.com/api"
 
-let baseURL = development || github || production;
+let baseURL = production;
 
 const API = axios.create({ baseURL });
 
