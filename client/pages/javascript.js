@@ -5,7 +5,6 @@ import NoteCard from '@/components/NoteCard';
 
 const JavaScript = () => {
     const [notes, setNotes] = useState([]);
-    console.log(notes,notes);
     const [loading, setLoading] = useState(true);
 
     const getNotes = async () => {

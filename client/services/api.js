@@ -16,3 +16,10 @@ export const createNote = (noteData) => API.post('/notes', noteData);
 
 // Fetch notes by technology
 export const fetchNotesByTechnology = (technology) => API.get('/notes', { params: { technology } });
+
+// Update a note
+export const updateNote = (noteId, noteData) => API.put(`/${noteId}`, noteData);
+
+// Delete a note
+export const deleteNote = (noteId) => API.delete(`/${noteId}`);
+
