@@ -1,32 +1,36 @@
 import React, { useState } from 'react';
+import parse, { domToReact } from 'html-react-parser';
 import Highlight from 'react-highlight';
-import 'highlight.js/styles/atom-one-dark.css'; // Choose a theme
+import 'highlight.js/styles/atom-one-dark.css';
 import { updateNote, deleteNote } from '../services/api';
 import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
+import Modal from './Modal';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-const NoteCard = ({ note, onUpdate }) => {
-    const [editing, setEditing] = useState(false); // Track if editing mode is active
-    const [editData, setEditData] = useState(note); // Store edited content
-    const [showMenu, setShowMenu] = useState(false); // Track if menu is visible
+const NoteCard = ({ note }) => {
+    const [editing, setEditing] = useState(false);
+    const [editData, setEditData] = useState(note);
+    const [showMenu, setShowMenu] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Toggle edit mode
-    const toggleEdit = () => {
+    const handleDeleteClick = () => {
+        setShowMenu(false);
+        setIsModalOpen(true);
+    };
+
+    const handleEdit = () => {
         setEditing(!editing);
         setShowMenu(false);
     };
 
-    // Handle deleting the note
     const handleDelete = async () => {
-        if (window.confirm('Are you sure you want to delete this note?')) {
-            await deleteNote(note._id);
-            onUpdate(); // Refresh the notes list
-        }
+        setShowMenu(false);
+        await deleteNote(note._id);
+        setIsModalOpen(false);        
     };
 
-    // Save the edited note
     const handleSave = async () => {
         await updateNote(editData._id, {
             question: editData.question,
@@ -34,14 +38,24 @@ const NoteCard = ({ note, onUpdate }) => {
             technology: editData.technology
         });
         setEditing(false);
-        // onUpdate(); // Refresh the notes list
     };
 
-    // Handle content change for answer/code in editing mode
     const handleContentChange = (index, value) => {
         const updatedContent = [...editData.content];
         updatedContent[index].value = value;
         setEditData({ ...editData, content: updatedContent });
+    };
+
+    const parseOptions = {
+        replace: (domNode) => {
+            if (domNode.name === 'pre') {
+                return (
+                    <Highlight className="javascript">
+                        {domToReact(domNode.children)}
+                    </Highlight>
+                );
+            }
+        }
     };
 
     return (
@@ -52,11 +66,11 @@ const NoteCard = ({ note, onUpdate }) => {
             </div>
 
             {showMenu && (
-                <div className="absolute top-8 right-2 bg-white border border-gray-300 rounded-md shadow-md">
-                    <button onClick={toggleEdit} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                <div className="absolute top-8 right-2 bg-white border border-gray-300 rounded-md shadow-md transition-transform">
+                    <button onClick={handleEdit} className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
                         Edit
                     </button>
-                    <button onClick={handleDelete} className="block px-4 py-2 text-red-500 hover:bg-gray-100">
+                    <button onClick={handleDeleteClick} className="block px-4 py-2 text-red-700 hover:bg-red-100" >
                         Delete
                     </button>
                 </div>
@@ -88,10 +102,10 @@ const NoteCard = ({ note, onUpdate }) => {
                             )}
                         </div>
                     ))}
-                    <button onClick={handleSave} className="bg-blue-500 text-white px-4 py-2 rounded-lg">
+                    <button onClick={handleSave} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
                         Save
                     </button>
-                    <button onClick={() => setEditing(false)} className="ml-4 text-gray-500">
+                    <button onClick={() => setEditing(false)} className="ml-4 text-gray-500 hover:underline">
                         Cancel
                     </button>
                 </div>
@@ -103,17 +117,15 @@ const NoteCard = ({ note, onUpdate }) => {
                             {note.content.map((item, index) => {
                                 if (item.type === 'answer') {
                                     return (
-                                        <div
-                                            key={index}
-                                            className="mb-2 text-base"
-                                            dangerouslySetInnerHTML={{ __html: item.value }}
-                                        />
+                                        <div key={index} className="mb-2 text-base">
+                                            {parse(item.value, parseOptions)}
+                                        </div>
                                     );
                                 } else if (item.type === 'code') {
                                     return (
-                                        <div key={index} className="mb-2 text-sm">
-                                            <Highlight>{item.value}</Highlight>
-                                        </div>
+                                        <Highlight key={index} className="javascript">
+                                            {item.value}
+                                        </Highlight>
                                     );
                                 }
                                 return null;
@@ -124,6 +136,9 @@ const NoteCard = ({ note, onUpdate }) => {
                     )}
                 </div>
             )}
+
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onDelete={handleDelete} />
+
         </div>
     );
 };

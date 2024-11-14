@@ -142,7 +142,7 @@ const AddNote = () => {
                               className="border border-gray-300 bg-inherit rounded-lg mb-2"
                             />
                           )}
-                          <button type="button" onClick={() => remove(index)} className="text-red-500" > Remove </button>
+                          {/* <button type="button" onClick={() => remove(index)} className="text-red-500" > Remove </button> */}
                         </div>
                       ) : (
                         <div>
@@ -159,7 +159,7 @@ const AddNote = () => {
                   ))}
 
                   {/* Buttons to Add Fields */}
-                  <div className="flex space-x-4 mb-4">
+                  {/* <div className="flex space-x-4 mb-4">
                     <button
                       type="button"
                       onClick={() => push({ type: 'answer', value: '' })}
@@ -174,7 +174,7 @@ const AddNote = () => {
                     >
                       Add Code
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               )}
             </FieldArray>
@@ -183,7 +183,7 @@ const AddNote = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full py-2 rounded-lg ${loading ? 'bg-gray-400' : 'bg-purple-500'} text-white`}
+              className={`w-full py-2 rounded-lg ${loading ? 'bg-gray-400' : 'bg-blue-500'} text-white`}
             >
               Add Note
             </button>
