@@ -17,6 +17,11 @@ mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log(err));
 
+// Home route
+app.get('/', (req, res) => {
+    res.send("Welcome to the Notecraftr! Use '/api' to access the available endpoints.");
+});
+
 // Routes
 app.use('/api', noteRoutes);
 
