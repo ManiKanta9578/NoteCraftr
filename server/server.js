@@ -20,7 +20,5 @@ mongoose.connect(process.env.MONGODB_URI)
 // Routes
 app.use('/api', noteRoutes);
 
-const PORT = process.env.PORT;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// Export the app for Vercel
+module.exports = app;
