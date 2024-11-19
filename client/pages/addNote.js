@@ -4,16 +4,18 @@ import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
 import { Formik, Form, Field, FieldArray } from 'formik';
 import * as Yup from 'yup';
-import LoadingSpinner from '@/components/LoadingSpinner';
+import { loadingShow } from '@/store/slices/loadingSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 // Dynamically import ReactQuill with SSR disabled
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const AddNote = () => {
-  const [mounted, setMounted] = useState(false); // Track whether the component is mounted on the client side
-  const [loading, setLoading] = useState(false); // Track form submission loading state
 
-  // Ensure the component is only rendered on the client side
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.loading.isLoading);
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -50,7 +52,7 @@ const AddNote = () => {
   });
 
   const handleSubmit = async (values, { resetForm }) => {
-    setLoading(true);
+    dispatch(loadingShow(true));
 
     const cleanedFields = values.fields.filter((field) => {
       if (field.type === 'answer') {
@@ -70,7 +72,7 @@ const AddNote = () => {
       technology: values.technology
     });
 
-    setLoading(false);
+    dispatch(loadingShow(false));
     resetForm();
   };
 
@@ -182,10 +184,10 @@ const AddNote = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={loading}
-              className={`w-full py-2 rounded-lg ${loading ? 'bg-gray-400' : 'bg-blue-500'} text-white`}
+              disabled={isLoading}
+              className={`w-full py-2 rounded-lg ${isLoading ? 'bg-gray-400' : 'bg-blue-500'} text-white`}
             >
-              Add Note
+              {isLoading ? 'Submitting...' : 'Add Note'}
             </button>
 
           </Form>
