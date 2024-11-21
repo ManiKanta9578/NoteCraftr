@@ -41,10 +41,11 @@ const NoteCard = ({ note }) => {
     };
 
     const handleContentChange = (index, value) => {
-        const updatedContent = [...editData.content];
-        updatedContent[index].value = value;
+        const updatedContent = editData.content.map((item, idx) => 
+            idx === index ? { ...item, value } : item
+        );
         setEditData({ ...editData, content: updatedContent });
-    };
+    };    
 
     const parseOptions = {
         replace: (domNode) => {
