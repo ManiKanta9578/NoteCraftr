@@ -6,6 +6,8 @@ import { updateNote, deleteNote } from '../services/api';
 import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
 import Modal from './Modal';
+import { HTMLRenderer } from './HTMLRenderer';
+import EditorComponent from './EditorComponent';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
@@ -28,7 +30,7 @@ const NoteCard = ({ note }) => {
     const handleDelete = async () => {
         setShowMenu(false);
         await deleteNote(note._id);
-        setIsModalOpen(false);        
+        setIsModalOpen(false);
     };
 
     const handleSave = async () => {
@@ -41,11 +43,11 @@ const NoteCard = ({ note }) => {
     };
 
     const handleContentChange = (index, value) => {
-        const updatedContent = editData.content.map((item, idx) => 
+        const updatedContent = editData.content.map((item, idx) =>
             idx === index ? { ...item, value } : item
         );
         setEditData({ ...editData, content: updatedContent });
-    };    
+    };
 
     const parseOptions = {
         replace: (domNode) => {
@@ -89,10 +91,11 @@ const NoteCard = ({ note }) => {
                     {editData.content.map((item, index) => (
                         <div key={index} className="mb-2">
                             {item.type === 'answer' ? (
-                                <ReactQuill
+                                <EditorComponent
                                     value={item.value}
                                     onChange={(value) => handleContentChange(index, value)}
                                     className="border rounded-lg mb-2"
+                                    placeholder="Answer"
                                 />
                             ) : (
                                 <textarea
@@ -121,6 +124,10 @@ const NoteCard = ({ note }) => {
                                         <div key={index} className="mb-2 text-base">
                                             {parse(item.value, parseOptions)}
                                         </div>
+                                        // <HTMLRenderer
+                                        //     htmlContent={item.value}
+                                        //     className="text-base"
+                                        // />
                                     );
                                 } else if (item.type === 'code') {
                                     return (

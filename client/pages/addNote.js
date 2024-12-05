@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { createNote } from '../services/api';
-import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
 import { Formik, Form, Field, FieldArray } from 'formik';
 import * as Yup from 'yup';
 import { loadingShow } from '@/store/slices/loadingSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import EditorComponent from '@/components/EditorComponent';
 
-// Dynamically import ReactQuill with SSR disabled
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const AddNote = () => {
 
@@ -20,24 +18,6 @@ const AddNote = () => {
     setMounted(true);
   }, []);
 
-  // ReactQuill configuration for toolbar
-  const modules = {
-    toolbar: [
-      [{ header: '1' }, { header: '2' }, { font: [] }],
-      [{ size: [] }],
-      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-      [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
-      ['link', 'image', 'code-block'],
-      ['clean']
-    ]
-  };
-
-  const formats = [
-    'header', 'font', 'size',
-    'bold', 'italic', 'underline', 'strike', 'blockquote',
-    'list', 'bullet', 'indent',
-    'link', 'image', 'code-block'
-  ];
 
   // Form validation schema using Yup
   const validationSchema = Yup.object().shape({
@@ -133,16 +113,15 @@ const AddNote = () => {
                       {field.type === 'answer' ? (
                         <div>
                           {mounted && (
-                            <ReactQuill
-                              value={field.value}
-                              onChange={(value) =>
-                                setFieldValue(`fields[${index}].value`, value)
-                              }
-                              placeholder="Answer"
-                              modules={modules}
-                              formats={formats}
-                              className="border border-gray-300 bg-inherit rounded-lg mb-2"
-                            />
+                            <>
+                              <EditorComponent
+                                value={field.value}
+                                onChange={(value) => setFieldValue(`fields[${index}].value`, value)}
+                                placeholder="Answer"
+                                className="border border-gray-300 bg-inherit rounded-lg mb-2"
+                                style={{ height: '400px', overflowY: 'auto' }}
+                              />
+                            </>
                           )}
                           {/* <button type="button" onClick={() => remove(index)} className="text-red-500" > Remove </button> */}
                         </div>
