@@ -3,20 +3,17 @@ const Note = require("../models/Note");
 
 
 const register =  async (req, res) => {
-    const { question, content, technology } = req.body;
+    const { question, answer, technology } = req.body;
 
-    if (!question || !Array.isArray(content) || !technology) {
+    if (!question || !answer || !technology) {
         return res.status(400).json({ message: 'Invalid data' });
     }
 
     try {
         // Sanitize each content item's value
-        const sanitizedContent = content.map(item => ({
-            type: item.type,
-            value: sanitizeHtml(item.value) // Sanitize HTML content
-        }));
+        const sanitizedAnswer = sanitizeHtml(answer);
 
-        const newNote = new Note({ question, content: sanitizedContent, technology });
+        const newNote = new Note({ question, answer: sanitizedAnswer, technology });
 
         const savedNote = await newNote.save();
         res.status(201).json(savedNote);
