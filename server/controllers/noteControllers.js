@@ -2,7 +2,7 @@ const sanitizeHtml = require("sanitize-html");
 const Note = require("../models/Note");
 
 
-const register =  async (req, res) => {
+const register = async (req, res) => {
     const { question, answer, technology } = req.body;
 
     if (!question || !answer || !technology) {
@@ -49,23 +49,20 @@ const getNotesById = async (req, res) => {
 }
 
 const updateNote = async (req, res) => {
-    const { question, content, technology } = req.body;
+    const { question, answer, technology } = req.body;
 
     // Ensure question, content, and technology are valid
-    if (!question || !Array.isArray(content) || !technology) {
+    if (!question || !answer || !technology) {
         return res.status(400).json({ message: 'Invalid data' });
     }
 
     try {
         // Sanitize each content item's value
-        const sanitizedContent = content.map(item => ({
-            type: item.type,
-            value: sanitizeHtml(item.value) // Sanitize HTML content
-        }));
+        const sanitizedAnswer = sanitizeHtml(answer);
 
         const updatedNote = await Note.findByIdAndUpdate(
             req.params.id,
-            { question, content: sanitizedContent, technology },
+            { question, answer: sanitizedAnswer, technology },
             { new: true } // Return the updated note
         );
 
@@ -89,4 +86,4 @@ const deleteNote = async (req, res) => {
 }
 
 
-module.exports = { register, getAllNotesByTechnology, getNotesById, updateNote, deleteNote};
+module.exports = { register, getAllNotesByTechnology, getNotesById, updateNote, deleteNote };
