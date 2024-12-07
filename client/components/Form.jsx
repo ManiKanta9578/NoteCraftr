@@ -2,12 +2,34 @@ import React from "react";
 import EditorComponent from "./EditorComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { resetFormData, setFormData } from "@/store/slices/formSlice";
+import dynamic from 'next/dynamic';
+
+// Dynamically import ReactQuill with SSR disabled
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const QuestionForm2 = ({ onSubmit, editing = false, handleCancel }) => {
 
     const formData = useSelector((state) => state.form);
 
     const dispatch = useDispatch();
+
+    const modules = {
+        toolbar: [
+            [{ header: '1' }, { header: '2' }, { font: [] }],
+            [{ size: [] }],
+            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+            [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
+            ['link', 'image', 'code-block'],
+            ['clean']
+        ]
+    };
+
+    const formats = [
+        'header', 'font', 'size',
+        'bold', 'italic', 'underline', 'strike', 'blockquote',
+        'list', 'bullet', 'indent',
+        'link', 'image', 'code-block'
+    ];
 
 
     const handleChange = (e) => {
@@ -66,10 +88,19 @@ const QuestionForm2 = ({ onSubmit, editing = false, handleCancel }) => {
 
                 <div>
                     <label htmlFor="answer" className="block font-bold mb-2"> Answer </label>
-                    <EditorComponent
+                    {/* <EditorComponent
                         value={formData.answer}
                         onChange={handleEditorChange}
                         className="border border-gray-300 bg-inherit rounded-lg"
+                    /> */}
+                    <ReactQuill
+                        value={formData.answer}
+                        onChange={handleEditorChange}
+                        placeholder="Answer"
+                        modules={modules}
+                        formats={formats}
+                        className="border border-gray-300 bg-inherit rounded-lg"
+                        style={{ height: '400px', overflowY: 'auto' }}
                     />
                 </div>
 
