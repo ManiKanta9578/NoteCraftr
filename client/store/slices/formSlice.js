@@ -13,19 +13,19 @@ const formSlice = createSlice({
             state[name] = value;
         },
         editFormData: (state, action) => {
-            const {technology, question, answer} = action.payload;
+            const { technology, question, answer } = action.payload;
             state.technology = technology || "";
             state.question = question || "";
             state.answer = answer || "";
         },
-        resetFormData: () => ({
-            technology: "",
+        resetFormData: (state) => ({
+            ...state,
             question: "",
             answer: "",
-        })
+        }),
     }
 });
 
-export const {setFormData, resetFormData, editFormData} = formSlice.actions;
+export const { setFormData, resetFormData, editFormData } = formSlice.actions;
 
 export default formSlice.reducer;
