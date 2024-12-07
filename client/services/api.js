@@ -16,6 +16,9 @@ export const fetchNotesByTechnology = (technology) => API.get('/notes', { params
 // Update a note
 export const updateNote = (noteId, noteData) => API.put(`/${noteId}`, noteData);
 
+// GET notes by Id
+export const fetchNoteBy = (noteId) => API.get(`/${noteId}`);
+
 // Delete a note
 export const deleteNote = (noteId) => API.delete(`/${noteId}`);
 
