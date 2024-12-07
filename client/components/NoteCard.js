@@ -14,7 +14,6 @@ const NoteCard = ({ note, isEditing, onEditToggle }) => {
     const [editData, setEditData] = useState();
     const [showMenu, setShowMenu] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isAccordionOpen, setIsAccordionOpen] = useState(false); // Accordion state
 
     const handleDeleteClick = () => {
         setShowMenu(false);
@@ -99,29 +98,16 @@ const NoteCard = ({ note, isEditing, onEditToggle }) => {
                 />
             ) : (
                 <div>
-                    <h3
-                        className="text-lg font-semibold cursor-pointer flex justify-between items-center"
-                        // className="text-base font-semibold text-left cursor-pointer"
-                        onClick={() => setIsAccordionOpen(!isAccordionOpen)}
-                    >
+                    <h3 className="text-lg font-semibold cursor-pointer flex justify-between items-center" >
                         {note?.question}
-                        <span className="text-sm">
-                            {isAccordionOpen ? '▲' : '▼'}
-                        </span>
                     </h3>
-                    {isAccordionOpen && (
-                        <div className="grid grid-cols-1 pl-0 md:pl-8 lg:pl-8 mt-4">
-                            <div>{parse(note?.answer || '', parseOptions)}</div>
-                        </div>
-                    )}
+                    <div className="grid grid-cols-1 pl-0 md:pl-8 lg:pl-8 mt-4">
+                        <div>{parse(note?.answer || '', parseOptions)}</div>
+                    </div>
                 </div>
             )}
 
-            <Modal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                onDelete={handleDelete}
-            />
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onDelete={handleDelete} />
         </div>
     );
 };
