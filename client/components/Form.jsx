@@ -99,7 +99,7 @@ const QuestionForm2 = ({ onSubmit, editing = false, handleCancel }) => {
                         modules={modules}
                         formats={formats}
                         className="border border-gray-300 bg-inherit rounded-lg"
-                        style={{ height: '400px', overflowY: 'auto' }}
+                        // style={{ height: '400px', overflowY: 'auto' }}
                     />
                 </div>
 
