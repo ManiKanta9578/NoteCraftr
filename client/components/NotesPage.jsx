@@ -41,6 +41,7 @@ const NotesPage = ({ technology }) => {
                             note={note}
                             isEditing={editingId === note._id}
                             onEditToggle={handleEditToggle}
+                            setEditingId={setEditingId}
                         />
                     ))
                 ) : (

@@ -6,12 +6,12 @@ import Modal from './Modal';
 import Highlight from 'react-highlight';
 import 'highlight.js/styles/atom-one-dark.css';
 import parse, { domToReact } from 'html-react-parser';
-import QuestionForm2 from './Form';
+import FormWithRichEditor from './ReactQuill';
 import { editFormData, resetFormData } from '@/store/slices/formSlice';
 
-const NoteCard = ({ note, isEditing, onEditToggle }) => {
+const NoteCard = ({ note, isEditing, onEditToggle, setEditingId }) => {
     const dispatch = useDispatch();
-    const [editData, setEditData] = useState();
+
     const [showMenu, setShowMenu] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -25,7 +25,6 @@ const NoteCard = ({ note, isEditing, onEditToggle }) => {
         const fetchedNote = await fetchNoteBy(note._id);
         if (fetchedNote?.status === 200) {
             dispatch(editFormData(fetchedNote?.data));
-            setEditData(fetchedNote?.data);
             onEditToggle(note._id);
             setShowMenu(false);
         }
@@ -35,7 +34,7 @@ const NoteCard = ({ note, isEditing, onEditToggle }) => {
     const onSubmit = async (data) => {
         dispatch(loadingShow(true));
         await updateNote(note._id, {
-            question: data.question,
+            question: data.question, // Match the field names from FormWithRichEditor
             answer: data.answer,
             technology: data.technology,
         });
@@ -90,15 +89,10 @@ const NoteCard = ({ note, isEditing, onEditToggle }) => {
             )}
 
             {isEditing ? (
-                <QuestionForm2
-                    onSubmit={onSubmit}
-                    initialData={editData}
-                    editing={isEditing}
-                    handleCancel={() => onEditToggle(null)} // Close form on cancel
-                />
+                <FormWithRichEditor onSubmit={onSubmit} setEditingId={setEditingId} isEditing={isEditing}/>
             ) : (
                 <div>
-                    <h3 className="text-lg font-semibold cursor-pointer flex justify-between items-center" >
+                    <h3 className="text-lg font-semibold cursor-pointer flex justify-between items-center">
                         {note?.question}
                     </h3>
                     <div className="grid grid-cols-1 pl-0 md:pl-8 lg:pl-8 mt-4">

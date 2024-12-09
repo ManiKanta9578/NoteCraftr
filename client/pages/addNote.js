@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import { createNote } from "../services/api";
 import { useDispatch } from "react-redux";
 import { loadingShow } from "@/store/slices/loadingSlice";
-import QuestionForm2 from "@/components/Form";
+import PrismEditor from "@/components/ReactQuill";
 import { resetFormData } from "@/store/slices/formSlice";
+import FormWithRichEditor from "@/components/ReactQuill";
 
 const AddNote = () => {
     const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const AddNote = () => {
     return (
         <div className="mx-auto h-screen p-3 shadow-lg rounded-lg mt-12">
             <h1 className="text-2xl font-semibold mb-2 text-center">Add New Note</h1>
-            <QuestionForm2 onSubmit={onSubmit} />
+            <FormWithRichEditor onSubmit={onSubmit} />
         </div>
     );
 };
