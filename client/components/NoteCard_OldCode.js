@@ -15,7 +15,6 @@ const NoteCard = ({ note, isEditing, onEditToggle, setEditingId }) => {
 
     const [showMenu, setShowMenu] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isAccordionOpen, setIsAccordionOpen] = useState(false);
 
     const handleDeleteClick = () => {
         setShowMenu(false);
@@ -94,19 +93,13 @@ const NoteCard = ({ note, isEditing, onEditToggle, setEditingId }) => {
                 <FormWithRichEditor onSubmit={onSubmit} setEditingId={setEditingId} isEditing={isEditing} />
             ) : (
                 <div>
-                    <h3
-                        className="text-lg font-semibold cursor-pointer flex justify-between items-center"
-                        onClick={() => setIsAccordionOpen(!isAccordionOpen)}
-                    >
+                    <h3 className="text-lg font-semibold cursor-pointer flex justify-between items-center">
                         {note?.question}
-                        <span> {isAccordionOpen ? '-' : '+'} </span>
                     </h3>
-                    {isAccordionOpen && (
-                        <div className="grid grid-cols-1 pl-0 md:pl-8 lg:pl-8 mt-4">
-                            {/* <div>{parse(note?.answer || '')}</div> */}
-                            <HTMLRenderer htmlContent={note?.answer || ''} />
-                        </div>
-                    )}
+                    <div className="grid grid-cols-1 pl-0 md:pl-8 lg:pl-8 mt-4">
+                        {/* <div>{parse(note?.answer || '')}</div> */}
+                        <HTMLRenderer htmlContent={note?.answer || ''} />
+                    </div>
                 </div>
             )}
 
