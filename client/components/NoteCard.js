@@ -8,6 +8,7 @@ import 'highlight.js/styles/atom-one-dark.css';
 import parse, { domToReact } from 'html-react-parser';
 import FormWithRichEditor from './ReactQuill';
 import { editFormData, resetFormData } from '@/store/slices/formSlice';
+import { HTMLRenderer } from './HTMLRenderer';
 
 const NoteCard = ({ note, isEditing, onEditToggle, setEditingId }) => {
     const dispatch = useDispatch();
@@ -49,17 +50,17 @@ const NoteCard = ({ note, isEditing, onEditToggle, setEditingId }) => {
         setIsModalOpen(false);
     };
 
-    const parseOptions = {
-        replace: (domNode) => {
-            if (domNode.name === 'pre') {
-                return (
-                    <Highlight className="javascript">
-                        {domToReact(domNode.children)}
-                    </Highlight>
-                );
-            }
-        },
-    };
+    // const parseOptions = {
+    //     replace: (domNode) => {
+    //         if (domNode.name === 'pre') {
+    //             return (
+    //                 <Highlight className="javascript">
+    //                     {domToReact(domNode.children)}
+    //                 </Highlight>
+    //             );
+    //         }
+    //     },
+    // };
 
     return (
         <div className="border border-gray-300 shadow-lg p-2 md:p-4 rounded-lg mx-auto w-full relative">
@@ -89,14 +90,15 @@ const NoteCard = ({ note, isEditing, onEditToggle, setEditingId }) => {
             )}
 
             {isEditing ? (
-                <FormWithRichEditor onSubmit={onSubmit} setEditingId={setEditingId} isEditing={isEditing}/>
+                <FormWithRichEditor onSubmit={onSubmit} setEditingId={setEditingId} isEditing={isEditing} />
             ) : (
                 <div>
                     <h3 className="text-lg font-semibold cursor-pointer flex justify-between items-center">
                         {note?.question}
                     </h3>
                     <div className="grid grid-cols-1 pl-0 md:pl-8 lg:pl-8 mt-4">
-                        <div>{parse(note?.answer || '', parseOptions)}</div>
+                        {/* <div>{parse(note?.answer || '')}</div> */}
+                        <HTMLRenderer htmlContent={note?.answer || ''} />
                     </div>
                 </div>
             )}
