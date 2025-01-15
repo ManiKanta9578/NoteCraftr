@@ -18,7 +18,7 @@ export const HTMLRenderer = ({
 
   return (
     <div 
-      className={`html-content-renderer prose prose-gray max-w-none 
+      className={`html-content-renderer prose prose-gray max-w-none text-sm
         [&_ul]:list-disc [&_ul]:pl-8 [&_ol]:list-decimal [&_ol]:pl-5
         [&_h1]:text-3xl [&_h2]:text-2xl [&_h3]:text-xl
         [&_blockquote]:border-l-4 [&_blockquote]:pl-4 [&_blockquote]:italic

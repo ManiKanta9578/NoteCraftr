@@ -95,7 +95,7 @@ const NoteCard = ({ note, isEditing, onEditToggle, setEditingId }) => {
             ) : (
                 <div>
                     <h3
-                        className="text-lg font-semibold cursor-pointer flex justify-between items-center"
+                        className="text-base font-semibold cursor-pointer flex justify-between items-center"
                         onClick={() => setIsAccordionOpen(!isAccordionOpen)}
                     >
                         {note?.question}
