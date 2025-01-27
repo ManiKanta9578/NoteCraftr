@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,7 +28,7 @@ export default function FormWithRichEditor({ onSubmit, setEditingId, isEditing }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 p-6 bg-inherit rounded shadow-md">
+    <form onSubmit={handleSubmit} className="space-y-4 p-6 bg-inherit rounded shadow-md">
       <div>
         <label htmlFor="technology" className="block text-sm font-medium"> Technology </label>
         <select
@@ -63,7 +63,7 @@ export default function FormWithRichEditor({ onSubmit, setEditingId, isEditing }
         />
       </div>
 
-      <div>
+      <div className="h-[300px]">
         <label htmlFor="richEditor" className="block text-sm font-medium"> Answer </label>
         <div className="mt-1">
           <ReactQuill
@@ -76,28 +76,17 @@ export default function FormWithRichEditor({ onSubmit, setEditingId, isEditing }
                 [{ list: 'ordered' }, { list: 'bullet' }],
                 ['code-block', 'blockquote'],
                 ['link', 'image'],
-                ['clean'], // Remove formatting button
+                ['clean'],
               ],
             }}
-            formats={[
-              'header',
-              'bold',
-              'italic',
-              'underline',
-              'strike',
-              'list',
-              'bullet',
-              'code-block',
-              'blockquote',
-              'link',
-              'image',
-            ]}
+            formats={['header', 'bold', 'italic', 'underline', 'strike', 'list', 'bullet', 'code-block', 'blockquote', 'link', 'image']}
             theme="snow"
-            className="bg-inherit rounded-md border border-gray-300 shadow-sm"
+            className="bg-inherit h-[230px]"
           />
         </div>
       </div>
-      <div className='flex gap-3 float-right'>
+
+      <div className="flex justify-end gap-3">
         <button
           onClick={() => { isEditing ? setEditingId(null) : dispatch(resetFormData()) }}
           type="button"
