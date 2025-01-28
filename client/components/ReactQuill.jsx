@@ -63,7 +63,7 @@ export default function FormWithRichEditor({ onSubmit, setEditingId, isEditing }
         />
       </div>
 
-      <div className="h-[300px]">
+      <div className="h-[450px]">
         <label htmlFor="richEditor" className="block text-sm font-medium"> Answer </label>
         <div className="mt-1">
           <ReactQuill
@@ -81,7 +81,7 @@ export default function FormWithRichEditor({ onSubmit, setEditingId, isEditing }
             }}
             formats={['header', 'bold', 'italic', 'underline', 'strike', 'list', 'bullet', 'code-block', 'blockquote', 'link', 'image']}
             theme="snow"
-            className="bg-inherit h-[230px]"
+            className="bg-inherit h-[370px]"
           />
         </div>
       </div>
