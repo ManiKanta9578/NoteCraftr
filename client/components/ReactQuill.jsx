@@ -39,8 +39,9 @@ export default function FormWithRichEditor({ onSubmit, setEditingId, isEditing }
           className="mt-1 block p-2 w-full rounded-md bg-inherit border border-gray-300 shadow-sm sm:text-sm"
         >
           <option style={{ backgroundColor: 'gray' }} value=""> Select Technology </option>
-          <option style={{ backgroundColor: 'gray' }} value="React">React </option>
-          <option style={{ backgroundColor: 'gray' }} value="Node">Node </option>
+          <option style={{ backgroundColor: 'gray' }} value="React">React.js </option>
+          <option style={{ backgroundColor: 'gray' }} value="NextJs">Next.js </option>
+          <option style={{ backgroundColor: 'gray' }} value="Node">Node.js </option>
           <option style={{ backgroundColor: 'gray' }} value="JavaScript">JavaScript </option>
           <option style={{ backgroundColor: 'gray' }} value="JSOutput">JS Output QAs </option>
           <option style={{ backgroundColor: 'gray' }} value="ReactMR">React MR QAs </option>

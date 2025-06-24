@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 
 const NavLinks = [
   { href: '/javascript', name: 'Javascript' },
+  { href: '/nextjs', name: 'NextJs' },
   { href: '/reactjs', name: 'ReactJs' },
   { href: '/dsa', name: 'DSA' },
   { href: '/jSOutput', name: 'JSOutput' },

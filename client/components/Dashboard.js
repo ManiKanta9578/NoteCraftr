@@ -4,12 +4,13 @@ import Image from 'next/image';
 
 const topics = [
     { id: 1, href: '/javascript', name: 'JavaScript', description: 'Explore fundamentals, advanced concepts, and coding challenges.', src: '/images/javascript.webp' },
-    { id: 2, href: '/reactjs', name: 'React.js', description: 'Master React.js concepts and build interactive UIs.', src: '/images/ReactJS.webp' },
-    { id: 3, href: '/dsa', name: 'DSA', description: 'Practice common coding challenges and algorithms.', src: '/images/DSA.webp' },
-    { id: 4, href: '/jSOutput', name: 'JavaScript Output Questions', description: 'Test your knowledge with output-focused questions.', src: '/images/JSOutput.png' },
-    { id: 5, href: '/reactMR', name: 'React Machine Round', description: 'Learn how to handle various scenarios in React development.', src: '/images/OIP.jpg' },
-    { id: 6, href: '/html', name: 'HTML', description: 'Understand HTML basics, semantic elements, and best practices.', src: '/images/HTML.webp' },
-    { id: 7, href: '/css', name: 'CSS', description: 'Dive into CSS styling, layouts, and responsive design.', src: '/images/CSS.jpg' },
+    { id: 2, href: '/nextjs', name: 'NextJs', description: 'The React Framework for the Web.', src: '/images/Nextjs.jpg' },
+    { id: 3, href: '/reactjs', name: 'React.js', description: 'Master React.js concepts and build interactive UIs.', src: '/images/ReactJS.webp' },
+    { id: 4, href: '/dsa', name: 'DSA', description: 'Practice common coding challenges and algorithms.', src: '/images/DSA.webp' },
+    { id: 5, href: '/jSOutput', name: 'JavaScript Output Questions', description: 'Test your knowledge with output-focused questions.', src: '/images/JSOutput.png' },
+    { id: 6, href: '/reactMR', name: 'React Machine Round', description: 'Learn how to handle various scenarios in React development.', src: '/images/OIP.jpg' },
+    { id: 7, href: '/html', name: 'HTML', description: 'Understand HTML basics, semantic elements, and best practices.', src: '/images/HTML.webp' },
+    { id: 8, href: '/css', name: 'CSS', description: 'Dive into CSS styling, layouts, and responsive design.', src: '/images/CSS.jpg' },
 ];
 
 const Dashboard = () => {
