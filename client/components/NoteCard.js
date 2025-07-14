@@ -307,7 +307,9 @@ const NoteCard = ({ note, isEditing, onEditToggle, setEditingId }) => {
                                             <BookOpen className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                                             <span className="text-sm font-medium text-blue-600 dark:text-blue-400">Answer</span>
                                         </div>
-                                        <HTMLRenderer htmlContent={note.answer} />
+                                        <div className="grid grid-cols-1 pl-0 md:pl-8 lg:pl-8 mt-4">
+                                            <HTMLRenderer htmlContent={note.answer} />
+                                        </div>
                                     </div>
                                 </div>
                             )}
