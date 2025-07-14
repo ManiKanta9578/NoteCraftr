@@ -1,30 +1,31 @@
-import React, { useEffect } from "react";
-import { createNote } from "../services/api";
-import { useDispatch } from "react-redux";
-import { loadingShow } from "@/store/slices/loadingSlice";
-import PrismEditor from "@/components/ReactQuill";
-import { resetFormData } from "@/store/slices/formSlice";
 import FormWithRichEditor from "@/components/ReactQuill";
+import { createNote } from "@/services/api";
+import { useState } from "react";
 
 const AddNote = () => {
-    const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
 
     const onSubmit = async (data) => {
-        dispatch(loadingShow(true));
+        setIsLoading(true);
+        // Simulate API call
         await createNote(data);
-        dispatch(loadingShow(false));
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        console.log('Note created:', data);
+        setIsLoading(false);
     };
 
-    useEffect(() => {
-        dispatch(resetFormData());
-    }, []);
+    if (isLoading) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-slate-50 to-white dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
+                <div className="text-center">
+                    <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <p className="text-slate-600 dark:text-slate-400">Creating your note...</p>
+                </div>
+            </div>
+        );
+    }
 
-    return (
-        <div className="mx-auto h-screen p-3 shadow-lg rounded-lg mt-12">
-            <h1 className="text-2xl font-semibold mb-2 text-center">Add New Note</h1>
-            <FormWithRichEditor onSubmit={onSubmit} />
-        </div>
-    );
+    return <FormWithRichEditor onSubmit={onSubmit} />;
 };
 
 export default AddNote;

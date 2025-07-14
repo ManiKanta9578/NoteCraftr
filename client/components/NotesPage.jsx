@@ -6,6 +6,7 @@ import { setNotes } from "@/store/slices/notesSlice";
 import NoteCard from "@/components/NoteCard";
 
 const NotesPage = ({ technology }) => {
+
     const dispatch = useDispatch();
     const notes = useSelector((state) => state.notes.data);
     const [editingId, setEditingId] = useState(null);

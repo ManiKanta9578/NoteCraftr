@@ -1,118 +1,172 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
-import ThemeSwitcher from '@/components/ThemeSwitcher';
-import { useRouter } from "next/router";
+import { Menu, X, BookOpen, Code, Globe, Layers, Terminal, Database, FileText, Zap, Layout, Palette, Plus } from 'lucide-react';
+import ThemeSwitcher from './ThemeSwitcher';
+import { useRouter } from 'next/router';
 
 const NavLinks = [
-  { href: '/javascript', name: 'Javascript' },
-  { href: '/nextjs', name: 'NextJs' },
-  { href: '/reactjs', name: 'ReactJs' },
-  { href: '/dsa', name: 'DSA' },
-  { href: '/jSOutput', name: 'JSOutput' },
-  { href: '/reactMR', name: 'ReactMR' },
-  { href: '/html', name: 'HTML' },
-  { href: '/css', name: 'CSS' },
-  { href: '/addNote', name: 'Create' },
+  { href: '/notes/JavaScript', name: 'Javascript', icon: Code },
+  { href: '/notes/NextJs', name: 'NextJs', icon: Globe },
+  { href: '/notes/React', name: 'ReactJs', icon: Layers },
+  { href: '/notes/Nodejs', name: 'Nodejs', icon: Terminal },
+  { href: '/notes/DSA', name: 'DSA', icon: Database },
+  { href: '/notes/JSOutput', name: 'JSOutput', icon: FileText },
+  { href: '/notes/ReactMR', name: 'ReactMR', icon: Zap },
+  { href: '/notes/HTML', name: 'HTML', icon: Layout },
+  { href: '/notes/CSS', name: 'CSS', icon: Palette },
+  { href: '/addNote', name: 'Create', icon: Plus },
 ];
 
 const Navbar = () => {
+
   const router = useRouter();
+
+  const [currentPath, setCurrentPath] = useState('/');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
-  const handleLinkClick = () => {
+  const handleLinkClick = (href) => {
+    setCurrentPath(href);
     setIsDrawerOpen(false);
+    router.push(href);
   };
 
   return (
-      <nav className="fixed w-full z-10 top-0 left-0 shadow-lg bg-white dark:bg-black">
-        <div className="max-w-screen-xl mx-auto flex justify-between items-center p-2">
-          {/* Left section with logo */}
-          <div className="flex items-center">
-            <Link href="/" className="text-xl md:text-2xl font-bold"> 📓NoteCraftr </Link>
-          </div>
+    <nav className="fixed w-full z-50 top-0 left-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200/50 dark:border-slate-700/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo Section */}
+            <div className="flex items-center space-x-2">
+              <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg shadow-lg">
+                <BookOpen className="w-5 h-5 text-white" />
+              </div>
+              <button 
+                onClick={() => handleLinkClick('/')}
+                className="text-xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent hover:from-blue-600 hover:to-purple-600 transition-all duration-300"
+              >
+                NoteCraftr
+              </button>
+            </div>
 
-          <div className="flex items-center space-x-4">
-            {/* Links for large screens */}
-            <div className="hidden md:flex items-center">
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center space-x-1">
               {NavLinks.map((item) => {
-                const isActive = router.pathname === item.href;
+                const isActive = currentPath === item.href;
+                const IconComponent = item.icon;
                 return (
-                    <Link
-                        key={item.name}
-                        href={item.href}
-                        className={`block py-2 px-3 rounded-lg transition duration-300 ${isActive ? 'text-blue-400' : 'hover:text-blue-400'}`}
-                        onClick={handleLinkClick}
-                    >
-                      {item.name}
-                    </Link>
+                  <button
+                    key={item.name}
+                    onClick={() => handleLinkClick(item.href)}
+                    className={`relative flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                      isActive 
+                        ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30' 
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50'
+                    }`}
+                  >
+                    <IconComponent className="w-4 h-4" />
+                    <span>{item.name}</span>
+                    {isActive && (
+                      <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-blue-600 dark:bg-blue-400 rounded-full"></div>
+                    )}
+                  </button>
                 );
               })}
             </div>
 
-            <ThemeSwitcher />
+            {/* Right Section */}
+            <div className="flex items-center space-x-3">
+              {/* Theme Toggle */}
+              <ThemeSwitcher />
 
-            <button onClick={toggleDrawer} className="md:hidden ml-auto p-2 focus:outline-none">
-              {!isDrawerOpen ? (
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4 18L20 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path>
-                    <path d="M4 12L20 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path>
-                    <path d="M4 6L20 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"></path>
-                  </svg>
-              ) : (
-                  <svg className="w-6 h-6" width="256px" height="256px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="24" height="24" fill="white"></rect>
-                    <path d="M7 17L16.8995 7.10051" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"></path>
-                    <path d="M7 7.00001L16.8995 16.8995" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"></path>
-                  </svg>
-              )}
-            </button>
-          </div>
-
-          {/* Side Drawer (slides from the right) for small screens */}
-          <div className={`fixed w-64 inset-y-0 right-0 transform ${isDrawerOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out z-50 bg-white dark:bg-gray-900 shadow-lg md:hidden`}>
-            {/* Close button inside drawer */}
-            <button
+              {/* Mobile Menu Button */}
+              <button
                 onClick={toggleDrawer}
-                className="absolute top-4 right-4 p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full focus:outline-none"
-                aria-label="Close Menu"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-
-            <ul className="flex flex-col items-start p-4 space-y-2">
-              {NavLinks.map((item) => {
-                const isActive = router.pathname === item.href;
-                return (
-                    <li key={item.name} className="w-full">
-                      <Link
-                          href={item.href}
-                          className={`block py-2 px-3 w-full rounded-lg transition duration-300 ${isActive
-                              ? 'text-blue-500 bg-blue-100 dark:text-blue-300 dark:bg-blue-900'
-                              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                          }`}
-                          onClick={handleLinkClick}
-                      >
-                        {item.name}
-                      </Link>
-                    </li>
-                );
-              })}
-            </ul>
+                className="lg:hidden p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200"
+                aria-label="Open menu"
+              >
+                {isDrawerOpen ? (
+                  <X className="w-5 h-5" />
+                ) : (
+                  <Menu className="w-5 h-5" />
+                )}
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Overlay for mobile/tablet when drawer is open */}
+        {/* Mobile Drawer */}
+        <div className={`lg:hidden fixed inset-y-0 right-0 w-80 bg-white dark:bg-slate-900 shadow-2xl transform transition-transform duration-300 ease-in-out z-50 ${
+          isDrawerOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}>
+          {/* Drawer Header */}
+          <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700">
+            <div className="flex items-center space-x-2">
+              <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg shadow-lg">
+                <BookOpen className="w-5 h-5 text-white" />
+              </div>
+              <span className="text-lg font-bold text-slate-900 dark:text-white">NoteCraftr</span>
+            </div>
+            <button
+              onClick={toggleDrawer}
+              className="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200"
+              aria-label="Close menu"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Drawer Content */}
+          <div className="p-6">
+            <div className="space-y-2">
+              {NavLinks.map((item) => {
+                const isActive = currentPath === item.href;
+                const IconComponent = item.icon;
+                return (
+                  <button
+                    key={item.name}
+                    onClick={() => handleLinkClick(item.href)}
+                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-200 ${
+                      isActive 
+                        ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800' 
+                        : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50'
+                    }`}
+                  >
+                    <div className={`flex items-center justify-center w-10 h-10 rounded-lg ${
+                      isActive 
+                        ? 'bg-blue-100 dark:bg-blue-900/50' 
+                        : 'bg-slate-100 dark:bg-slate-800'
+                    }`}>
+                      <IconComponent className="w-5 h-5" />
+                    </div>
+                    <div className="flex-1">
+                      <span className="font-medium">{item.name}</span>
+                      {isActive && (
+                        <div className="w-2 h-2 bg-blue-600 dark:bg-blue-400 rounded-full mt-1"></div>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Drawer Footer */}
+            <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
+              <div className="flex items-center justify-between px-4 py-3">
+                <span className="text-slate-700 dark:text-slate-300 font-medium">Theme</span>
+                <ThemeSwitcher />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Overlay */}
         {isDrawerOpen && (
-            <div
-                className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
-                onClick={toggleDrawer}
-            />
+          <div
+            className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+            onClick={toggleDrawer}
+          />
         )}
       </nav>
   );
