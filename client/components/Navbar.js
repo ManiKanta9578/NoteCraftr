@@ -19,8 +19,9 @@ const NavLinks = [
 const Navbar = () => {
 
   const router = useRouter();
+  let currentPath = router.pathname
 
-  const [currentPath, setCurrentPath] = useState('/');
+  // const [currentPath, setCurrentPath] = useState('/');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const toggleDrawer = () => {
@@ -28,7 +29,7 @@ const Navbar = () => {
   };
 
   const handleLinkClick = (href) => {
-    setCurrentPath(href);
+    // setCurrentPath(href);
     setIsDrawerOpen(false);
     router.push(href);
   };
@@ -97,11 +98,11 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Drawer */}
-        <div className={`lg:hidden fixed inset-y-0 right-0 w-80 bg-white dark:bg-slate-900 shadow-2xl transform transition-transform duration-300 ease-in-out z-50 ${
+        <div className={`lg:hidden fixed inset-y-0 right-0 w-72 bg-white dark:bg-slate-900 shadow-2xl transform transition-transform duration-300 ease-in-out z-50 ${
           isDrawerOpen ? 'translate-x-0' : 'translate-x-full'
         }`}>
           {/* Drawer Header */}
-          <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700">
+          <div className="flex items-center justify-between p-3.5 border-b border-slate-200 dark:border-slate-700">
             <div className="flex items-center space-x-2">
               <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg shadow-lg">
                 <BookOpen className="w-5 h-5 text-white" />
@@ -118,8 +119,8 @@ const Navbar = () => {
           </div>
 
           {/* Drawer Content */}
-          <div className="p-6">
-            <div className="space-y-2">
+          <div className="p-1 bg-white dark:bg-slate-900 flex flex-col h-[91vh]">
+            <div className='flex-1 overflow-y-auto p-4'>
               {NavLinks.map((item) => {
                 const isActive = currentPath === item.href;
                 const IconComponent = item.icon;
@@ -152,7 +153,7 @@ const Navbar = () => {
             </div>
 
             {/* Drawer Footer */}
-            <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
+            <div className=" border-t border-slate-200 dark:border-slate-700">
               <div className="flex items-center justify-between px-4 py-3">
                 <span className="text-slate-700 dark:text-slate-300 font-medium">Theme</span>
                 <ThemeSwitcher />
