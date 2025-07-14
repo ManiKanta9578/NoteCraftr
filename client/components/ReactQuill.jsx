@@ -287,7 +287,7 @@ const FormWithRichEditor = ({ onSubmit, setEditingId, isEditing }) => {
               <span className="font-medium">HTML Output</span>
             </div>
             <p className="text-sm text-purple-600/80 dark:text-purple-400/80 mt-1">
-              Clean HTML output that's easy to render and display.
+              Clean HTML output that&rsquo;s easy to render and display.
             </p>
           </div>
         </div>

@@ -1,6 +1,8 @@
-import FormWithRichEditor from "@/components/ReactQuill";
 import { createNote } from "@/services/api";
 import { useState } from "react";
+
+import dynamic from 'next/dynamic';
+const FormWithRichEditor = dynamic(() => import('@/components/ReactQuill'), { ssr: false });
 
 const AddNote = () => {
     const [isLoading, setIsLoading] = useState(false);

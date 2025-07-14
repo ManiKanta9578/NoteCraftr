@@ -2,9 +2,16 @@
 
 import React from "react";
 import { useRouter } from "next/router";
-import NotesPage from "@/components/NotesPage";
+import dynamic from "next/dynamic";
+
+const NotesPage = dynamic(() => import("@/components/NotesPage"), {
+  ssr: false,
+  loading: () => <p>Loading notes...</p>,
+});
+
 
 const TechnologyPage = () => {
+
   const router = useRouter();
   const { technology } = router.query;
 
