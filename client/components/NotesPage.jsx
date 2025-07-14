@@ -4,6 +4,7 @@ import { fetchNotesByTechnology } from "../services/api";
 import { loadingShow } from "@/store/slices/loadingSlice";
 import { setNotes } from "@/store/slices/notesSlice";
 import NoteCard from "@/components/NoteCard";
+import LoadingSpinner from "./LoadingSpinner";
 
 const NotesPage = ({ technology }) => {
 
