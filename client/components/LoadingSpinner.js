@@ -1,42 +1,15 @@
 import React from 'react';
 
 const LoadingSpinner = () => {
-  // Simulate Redux selector - in real app, replace with actual useSelector
-  const isLoading = true; // useSelector((state) => state.loading);
-  
-  if (!isLoading) return null;
   
   return (
-    <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center">
-      <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 p-8 flex flex-col items-center space-y-6">
-        {/* Main spinner */}
-        <div className="relative">
-          {/* Outer ring */}
-          <div className="w-16 h-16 border-4 border-gray-200 rounded-full animate-spin border-t-blue-600"></div>
-          
-          {/* Inner pulsing dot */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
-          </div>
-        </div>
+    <div className="fixed inset-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm z-50 flex items-center justify-center">
+      <div className="flex flex-col items-center space-y-4">
+        {/* Simple spinner */}
+        <div className="w-8 h-8 border-2 border-gray-300 dark:border-gray-600 rounded-full animate-spin border-t-blue-600 dark:border-t-blue-500 border-r-blue-600 dark:border-r-blue-500"></div>
         
-        {/* Loading text with subtle animation */}
-        <div className="text-center">
-          <h3 className="text-lg font-semibold text-gray-800 mb-1">Loading</h3>
-          <div className="flex items-center space-x-1">
-            <span className="text-sm text-gray-500">Please wait</span>
-            <div className="flex space-x-1">
-              <div className="w-1 h-1 bg-gray-400 rounded-full animate-bounce"></div>
-              <div className="w-1 h-1 bg-gray-400 rounded-full animate-bounce [animation-delay:0.1s]"></div>
-              <div className="w-1 h-1 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Optional progress bar */}
-        <div className="w-48 h-1 bg-gray-200 rounded-full overflow-hidden">
-          <div className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full animate-pulse"></div>
-        </div>
+        {/* Minimal text */}
+        <p className="text-sm text-gray-600 dark:text-gray-400">Loading...</p>
       </div>
     </div>
   );

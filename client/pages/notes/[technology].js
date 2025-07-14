@@ -1,19 +1,25 @@
-// pages/notes/[technology].js
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import LoadingSpinner from '@/components/LoadingSpinner';
+import NotesPage from '@/components/NotesPage';
 
-import React from "react";
-import { useRouter } from "next/router";
-import dynamic from "next/dynamic";
-
-const NotesPage = dynamic(() => import("@/components/NotesPage"), {
-  ssr: false,
-  loading: () => <p>Loading notes...</p>,
-});
-
+// const NotesPage = dynamic(
+//   () => import('@/components/NotesPage'),
+//   {
+//     ssr: false,
+//     loading: () => <LoadingSpinner />,
+//   }
+// );
 
 const TechnologyPage = () => {
-
+  const isLoading = useSelector((state) => state.loading);
   const router = useRouter();
   const { technology } = router.query;
+
+  if (!technology) {
+    return <LoadingSpinner />;
+  }
 
   return <NotesPage technology={technology} />;
 };

@@ -32,6 +32,10 @@ const NotesPage = ({ technology }) => {
         getNotes();
     }, [technology]);
 
+    if (!notes) {
+        return <LoadingSpinner />;
+    }
+
     return (
         <div className="container mx-auto px-4 mt-16">
             <div className="grid gap-4">
