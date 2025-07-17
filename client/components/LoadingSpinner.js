@@ -55,11 +55,11 @@ export const CardSkeleton = ({ showActions = true, variant = 'default' }) => (
     {/* Header */}
     <div className="flex items-start justify-between">
       <div className="flex items-center space-x-3 flex-1">
-        <ShimmerSkeleton className="w-10 h-10 rounded-full" />
-        <div className="space-y-2 flex-1">
+        <ShimmerSkeleton className="w-20 h-10 rounded-full" />
+        {/* <div className="space-y-2 flex-1">
           <ShimmerSkeleton className="h-4 w-1/3" />
           <ShimmerSkeleton className="h-3 w-1/4" />
-        </div>
+        </div> */}
       </div>
       {showActions && <ShimmerSkeleton className="w-6 h-6 rounded" />}
     </div>
@@ -68,14 +68,14 @@ export const CardSkeleton = ({ showActions = true, variant = 'default' }) => (
     <div className="space-y-3">
       <ShimmerSkeleton className="h-5 w-4/5" />
       <ShimmerSkeleton className="h-4 w-full" />
-      <ShimmerSkeleton className="h-4 w-3/4" />
+      {/* <ShimmerSkeleton className="h-4 w-3/4" /> */}
     </div>
     
     {/* Footer */}
     <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
       <div className="flex items-center space-x-4">
         <ShimmerSkeleton className="h-3 w-16" />
-        <ShimmerSkeleton className="h-3 w-12" />
+        {/* <ShimmerSkeleton className="h-3 w-12" /> */}
       </div>
       <ShimmerSkeleton className="h-3 w-8" />
     </div>
