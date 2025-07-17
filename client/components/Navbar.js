@@ -19,9 +19,7 @@ const NavLinks = [
 const Navbar = () => {
 
   const router = useRouter();
-  let currentPath = router.pathname
 
-  // const [currentPath, setCurrentPath] = useState('/');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const toggleDrawer = () => {
@@ -29,7 +27,6 @@ const Navbar = () => {
   };
 
   const handleLinkClick = (href) => {
-    // setCurrentPath(href);
     setIsDrawerOpen(false);
     router.push(href);
   };
@@ -54,7 +51,7 @@ const Navbar = () => {
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-1">
               {NavLinks.map((item) => {
-                const isActive = currentPath === item.href;
+                const isActive = router.asPath === item.href;
                 const IconComponent = item.icon;
                 return (
                   <button
@@ -122,7 +119,7 @@ const Navbar = () => {
           <div className="p-1 bg-white dark:bg-slate-900 flex flex-col h-[91vh]">
             <div className='flex-1 overflow-y-auto p-4'>
               {NavLinks.map((item) => {
-                const isActive = currentPath === item.href;
+                const isActive = router.asPath === item.href;
                 const IconComponent = item.icon;
                 return (
                   <button

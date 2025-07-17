@@ -19,7 +19,10 @@ import {
     Tag,
     ExternalLink,
     Copy,
-    BookOpen
+    BookOpen,
+    Clock,
+    Eye,
+    EyeOff
 } from 'lucide-react';
 import FormWithRichEditor from './ReactQuill';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,94 +44,96 @@ const technologyConfig = {
     HTML: { icon: Layout, color: 'bg-red-500', bgColor: 'bg-red-50 dark:bg-red-900/20', textColor: 'text-red-700 dark:text-red-300', borderColor: 'border-red-200 dark:border-red-800' },
 };
 
-// Mock HTMLRenderer component
+// Enhanced HTMLRenderer with better mobile optimization
 const HTMLRenderer = ({ htmlContent }) => {
     const renderContent = (content) => {
         if (!content) return '';
 
         let html = content;
 
-        // Code blocks with syntax highlighting
+        // Code blocks with better mobile styling
         html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
             const language = lang || 'javascript';
-            return `<div class="relative">
-        <div class="absolute top-2 right-2 text-xs text-gray-400 bg-gray-800 px-2 py-1 rounded">${language}</div>
-        <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-4 border border-gray-700"><code class="language-${language}">${code.trim()}</code></pre>
-      </div>`;
+            return `<div class="relative my-3 sm:my-4 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between bg-gray-100 dark:bg-gray-800 px-3 py-2 text-xs border-b border-gray-200 dark:border-gray-700">
+                    <span class="text-gray-600 dark:text-gray-400">${language}</span>
+                    <span class="text-gray-500 dark:text-gray-500">code</span>
+                </div>
+                <pre class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 p-3 sm:p-4 overflow-x-auto text-xs sm:text-sm font-mono leading-relaxed"><code class="language-${language}">${code.trim()}</code></pre>
+            </div>`;
         });
 
-        // Inline code
-        html = html.replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-800 text-pink-600 dark:text-pink-400 px-2 py-1 rounded text-sm font-mono border">$1</code>');
+        // Inline code with better mobile styling
+        html = html.replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-800 text-pink-600 dark:text-pink-400 px-1.5 py-0.5 rounded text-xs sm:text-sm font-mono border border-gray-200 dark:border-gray-700 break-all">$1</code>');
 
-        // Bold
+        // Bold with better contrast
         html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-900 dark:text-gray-100">$1</strong>');
 
         // Italic
         html = html.replace(/\*(.*?)\*/g, '<em class="italic text-gray-700 dark:text-gray-300">$1</em>');
 
-        // Lists
-        html = html.replace(/^- (.+)$/gm, '<li class="flex items-start space-x-2 py-1"><span class="text-blue-500 mt-1">•</span><span>$1</span></li>');
-        html = html.replace(/(<li>.*<\/li>)/s, '<ul class="space-y-1 my-3 ml-4">$1</ul>');
+        // Enhanced lists with better mobile spacing
+        html = html.replace(/^- (.+)$/gm, '<li class="flex items-start space-x-2 py-1.5 sm:py-1"><span class="text-blue-500 mt-1 flex-shrink-0">•</span><span class="text-sm sm:text-base leading-relaxed">$1</span></li>');
+        html = html.replace(/(<li>.*<\/li>)/s, '<ul class="space-y-1 my-3 sm:my-4 ml-2 sm:ml-4">$1</ul>');
 
-        // Line breaks
-        html = html.replace(/\n/g, '<br>');
+        // Better line breaks for mobile
+        html = html.replace(/\n/g, '<br class="my-1">');
 
         return html;
     };
 
     return (
         <div
-            className="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed"
+            className="prose prose-sm sm:prose-base dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed overflow-hidden"
             dangerouslySetInnerHTML={{ __html: renderContent(htmlContent) }}
         />
     );
 };
 
-// Mock Modal component
+// Enhanced Modal with better mobile styling
 const Modal = ({ isOpen, onClose, onDelete }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-md mx-4 shadow-2xl border border-gray-200 dark:border-gray-700">
-                <div className="flex items-center space-x-3 mb-4">
-                    <div className="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
-                        <Trash2 className="w-5 h-5 text-red-600 dark:text-red-400" />
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-sm sm:max-w-md shadow-2xl border border-gray-200 dark:border-gray-700 transform transition-all">
+                <div className="p-6">
+                    <div className="flex items-center space-x-3 mb-4">
+                        <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center flex-shrink-0">
+                            <Trash2 className="w-5 h-5 text-red-600 dark:text-red-400" />
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Delete Note</h3>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">This action cannot be undone.</p>
+                        </div>
                     </div>
-                    <div>
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Delete Note</h3>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">This action cannot be undone.</p>
+
+                    <p className="text-gray-600 dark:text-gray-300 mb-6 text-sm sm:text-base">
+                        Are you sure you want to delete this note? This will permanently remove it from your collection.
+                    </p>
+
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-0 sm:items-center sm:justify-end sm:space-x-3">
+                        <button
+                            onClick={onClose}
+                            className="w-full sm:w-auto px-4 py-2.5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-center border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            onClick={onDelete}
+                            className="w-full sm:w-auto px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium text-center"
+                        >
+                            Delete Note
+                        </button>
                     </div>
-                </div>
-
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
-                    Are you sure you want to delete this note? This will permanently remove it from your collection.
-                </p>
-
-                <div className="flex items-center justify-end space-x-3">
-                    <button
-                        onClick={onClose}
-                        className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        onClick={onDelete}
-                        className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium"
-                    >
-                        Delete
-                    </button>
                 </div>
             </div>
         </div>
     );
 };
 
-
 const NoteCard = ({ note, isEditing, onEditToggle, setEditingId }) => {
-
     const dispatch = useDispatch();
-
     const isLoading = useSelector((state) => state.loading);
 
     const [showMenu, setShowMenu] = useState(false);
@@ -136,17 +141,10 @@ const NoteCard = ({ note, isEditing, onEditToggle, setEditingId }) => {
     const [isAccordionOpen, setIsAccordionOpen] = useState(false);
     const [copied, setCopied] = useState(false);
 
-
     const handleDeleteClick = () => {
         setShowMenu(false);
         setIsModalOpen(true);
     };
-
-    // const handleEdit = async () => {
-    //     // Mock edit functionality
-    //     onEditToggle(note._id);
-    //     setShowMenu(false);
-    // };
 
     const handleEdit = async () => {
         dispatch(loadingShow(true));
@@ -161,17 +159,15 @@ const NoteCard = ({ note, isEditing, onEditToggle, setEditingId }) => {
 
     const onSubmit = async (data) => {
         await updateNote(note._id, {
-            question: data.question, // Match the field names from FormWithRichEditor
+            question: data.question,
             answer: data.answer,
             technology: data.technology,
         });
-        console.log('Updating note:', data);
         onEditToggle(null);
     };
 
     const handleDelete = async () => {
         await deleteNote(note._id);
-        console.log('Deleting note:', note._id);
         setShowMenu(false);
         setIsModalOpen(false);
     };
@@ -188,6 +184,7 @@ const NoteCard = ({ note, isEditing, onEditToggle, setEditingId }) => {
 
     const techConfig = technologyConfig[note.technology] || technologyConfig.JavaScript;
     const TechIcon = techConfig.icon;
+
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString('en-US', {
             month: 'short',
@@ -197,154 +194,114 @@ const NoteCard = ({ note, isEditing, onEditToggle, setEditingId }) => {
     };
 
     return (
-        <div className="group relative">
-            {/* Main Card */}
+        <div className="group relative w-full">
             {isLoading ? (
                 <CardSkeleton />
             ) : (
-                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 sm:p-6 hover:shadow-md transition-all duration-200 hover:border-gray-300 dark:hover:border-gray-600">
+                <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-md transition-all duration-200 hover:border-gray-300 dark:hover:border-gray-600">
 
-                    {/* Header - Simplified on mobile */}
-                    <div className="flex items-start justify-between mb-3 sm:mb-4">
-                        <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 flex-1">
-                            {/* Technology Badge - Always visible */}
-                            <div className={`${techConfig.bgColor} ${techConfig.borderColor} border rounded-xl px-3 py-1.5 flex items-center space-x-2 w-fit`}>
-                                <div className={`w-4 h-4 ${techConfig.color} rounded-full flex items-center justify-center`}>
-                                    <TechIcon className="w-2.5 h-2.5 text-white" />
-                                </div>
-                                <span className={`text-xs font-medium ${techConfig.textColor}`}>
-                                    {note.technology}
-                                </span>
+                    {/* Clean Header */}
+                    <div className="p-1 sm:p-2 flex items-center justify-between">
+                        <div className={`${techConfig.bgColor} ${techConfig.borderColor} border rounded-lg px-3 py-2 flex items-center space-x-2`}>
+                            <div className={`w-4 h-4 ${techConfig.color} rounded-full flex items-center justify-center flex-shrink-0`}>
+                                <TechIcon className="w-2.5 h-2.5 text-white" />
                             </div>
-
-                            {/* Metadata - Stacked on mobile */}
-                            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-400">
-                                <div className="flex items-center space-x-1">
-                                    <Calendar className="w-3 h-3" />
-                                    <span>{formatDate(note.createdAt)}</span>
-                                </div>
-                                <div className="flex items-center space-x-1">
-                                    <User className="w-3 h-3" />
-                                    <span>You</span>
-                                </div>
-                            </div>
+                            <span className={`text-sm font-medium ${techConfig.textColor}`}>
+                                {note.technology}
+                            </span>
                         </div>
 
-                        {/* Actions Menu - Always visible on mobile */}
-                        <div className="relative">
+                        {/* Actions Menu */}
+                        <div className="relative flex-shrink-0">
                             <button
                                 onClick={() => setShowMenu(!showMenu)}
-                                className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors sm:opacity-0 sm:group-hover:opacity-100"
+                                className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                             >
-                                <MoreVertical className="w-4 h-4" />
+                                <MoreVertical className="w-5 h-5" />
                             </button>
 
                             {showMenu && (
-                                <div className="absolute top-10 right-0 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 py-2 z-10">
-                                    <button
-                                        onClick={handleEdit}
-                                        className="w-full flex items-center space-x-3 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                                    >
-                                        <Edit3 className="w-4 h-4" />
-                                        <span>Edit Note</span>
-                                    </button>
-                                    <button
-                                        onClick={handleCopy}
-                                        className="w-full flex items-center space-x-3 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                                    >
-                                        <Copy className="w-4 h-4" />
-                                        <span>{copied ? 'Copied!' : 'Copy Content'}</span>
-                                    </button>
-                                    <div className="border-t border-gray-200 dark:border-gray-700 my-1"></div>
-                                    <button
-                                        onClick={handleDeleteClick}
-                                        className="w-full flex items-center space-x-3 px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-                                    >
-                                        <Trash2 className="w-4 h-4" />
-                                        <span>Delete Note</span>
-                                    </button>
-                                </div>
+                                <>
+                                    {/* Backdrop for mobile */}
+                                    <div
+                                        className="fixed inset-0 z-10 sm:hidden"
+                                        onClick={() => setShowMenu(false)}
+                                    />
+
+                                    <div className="absolute top-12 right-0 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 py-2 z-20">
+                                        <button
+                                            onClick={handleEdit}
+                                            className="w-full flex items-center space-x-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                                        >
+                                            <Edit3 className="w-4 h-4 flex-shrink-0" />
+                                            <span>Edit</span>
+                                        </button>
+                                        <button
+                                            onClick={handleCopy}
+                                            className="w-full flex items-center space-x-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                                        >
+                                            <Copy className="w-4 h-4 flex-shrink-0" />
+                                            <span>{copied ? 'Copied!' : 'Copy'}</span>
+                                        </button>
+                                        <div className="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+                                        <button
+                                            onClick={handleDeleteClick}
+                                            className="w-full flex items-center space-x-3 px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                                        >
+                                            <Trash2 className="w-4 h-4 flex-shrink-0" />
+                                            <span>Delete</span>
+                                        </button>
+                                    </div>
+                                </>
                             )}
                         </div>
                     </div>
 
-                    {/* Content - Prioritized for mobile */}
-                    {isEditing ? (
-                        <FormWithRichEditor
-                            onSubmit={onSubmit}
-                            setEditingId={setEditingId}
-                            isEditing={isEditing}
-                        />
-                    ) : (
-                        <div className="space-y-4">
-                            {/* Question - Always visible and prominent */}
-                            <div
-                                className="cursor-pointer"
-                                onClick={() => setIsAccordionOpen(!isAccordionOpen)}
-                            >
-                                <div className="flex items-center justify-between group/question">
-                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover/question:text-blue-600 dark:group-hover/question:text-blue-400 transition-colors flex-1 pr-2 sm:pr-4">
+                    {/* Main Content Area */}
+                    <div className="sm:p-3 p-1">
+                        {isEditing ? (
+                            <FormWithRichEditor
+                                onSubmit={onSubmit}
+                                setEditingId={setEditingId}
+                                isEditing={isEditing}
+                            />
+                        ) : (
+                            <div className="space-y-4">
+                                {/* Question Section - Clean and prominent */}
+                                <div>
+                                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white leading-tight mb-4">
                                         {note.question}
                                     </h3>
-                                    <div className="flex items-center space-x-1 sm:space-x-2">
-                                        <div className="text-xs text-gray-500 dark:text-gray-400 hidden sm:block">
-                                            {isAccordionOpen ? 'Hide' : 'Show'} answer
+                                </div>
+
+                                {/* Answer Toggle - Clean */}
+                                <div>
+                                    <button
+                                        onClick={() => setIsAccordionOpen(!isAccordionOpen)}
+                                        className="w-full flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group"
+                                    >
+                                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                            {isAccordionOpen ? 'Hide Answer' : 'Show Answer'}
+                                        </span>
+                                        <ChevronDown className={`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform ${isAccordionOpen ? 'rotate-180' : ''}`} />
+                                    </button>
+
+                                    {/* Answer Content */}
+                                    {isAccordionOpen && (
+                                        <div className="mt-4 animate-in slide-in-from-top-2 duration-200">
+                                             <div className="grid grid-cols-1 pl-0 md:pl-8 lg:pl-8 mt-4">
+                                                <HTMLRenderer htmlContent={note.answer} />
+                                            </div>
                                         </div>
-                                        <div className="p-1 rounded-full bg-gray-100 dark:bg-gray-700 group-hover/question:bg-blue-100 dark:group-hover/question:bg-blue-900/30 transition-colors">
-                                            {isAccordionOpen ? (
-                                                <ChevronDown className="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover/question:text-blue-600 dark:group-hover/question:text-blue-400" />
-                                            ) : (
-                                                <ChevronRight className="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover/question:text-blue-600 dark:group-hover/question:text-blue-400" />
-                                            )}
-                                        </div>
-                                    </div>
+                                    )}
                                 </div>
                             </div>
-
-                            {/* Answer - Full width on mobile */}
-                            {isAccordionOpen && (
-                                <div className="animate-in slide-in-from-top-2 duration-200">
-                                    <div className="border-l-4 border-blue-500 pl-4 sm:pl-6 py-4 bg-gray-50 dark:bg-gray-900/50 rounded-r-xl">
-                                        <div className="flex items-center space-x-2 mb-3">
-                                            <BookOpen className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                                            <span className="text-sm font-medium text-blue-600 dark:text-blue-400">Answer</span>
-                                        </div>
-                                        <div className="grid grid-cols-1 pl-0">
-                                            <HTMLRenderer htmlContent={note.answer} />
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    )}
-
-                    {/* Footer - Simplified on mobile */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-gray-200 dark:border-gray-700 space-y-2 sm:space-y-0">
-                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-400">
-                            <div className="flex items-center space-x-1">
-                                <Tag className="w-3 h-3" />
-                                <span>Technical Note</span>
-                            </div>
-                            {note.updatedAt !== note.createdAt && (
-                                <div className="flex items-center space-x-1">
-                                    <Edit3 className="w-3 h-3" />
-                                    <span>Updated {formatDate(note.updatedAt)}</span>
-                                </div>
-                            )}
-                        </div>
-
-                        <button
-                            onClick={handleCopy}
-                            className="flex items-center space-x-1 text-xs text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors self-end sm:self-auto"
-                        >
-                            <Copy className="w-3 h-3" />
-                            <span>{copied ? 'Copied!' : 'Copy'}</span>
-                        </button>
+                        )}
                     </div>
                 </div>
             )}
 
-            {/* Modal */}
+            {/* Enhanced Modal */}
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onDelete={handleDelete} />
         </div>
     );

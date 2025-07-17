@@ -12,7 +12,6 @@ const AddNote = () => {
         // Simulate API call
         await createNote(data);
         await new Promise(resolve => setTimeout(resolve, 1000));
-        console.log('Note created:', data);
         setIsLoading(false);
     };
 
